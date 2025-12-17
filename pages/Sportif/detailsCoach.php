@@ -7,132 +7,166 @@
 </head>
 <body class="bg-gray-100">
 
-<!-- ===== HEADER ===== -->
 <header class="bg-purple-600 text-white py-6">
   <div class="max-w-6xl mx-auto px-4">
-    <h1 class="text-3xl font-bold">Détails du Coach</h1>
-    <p class="text-sm opacity-90">Découvrez le profil et réservez une séance</p>
+    <h1 class="text-3xl font-bold">Trouver un Coach</h1>
+    <p class="text-sm opacity-90">Recherchez et réservez votre coach idéal</p>
   </div>
 </header>
 
-<!-- ===== MAIN ===== -->
-<main class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-  <!-- ===== PROFIL COACH ===== -->
-  <section class="bg-white rounded-xl shadow p-6 lg:col-span-2">
-    <div class="flex flex-col md:flex-row gap-6">
-      <img src="https://via.placeholder.com/200"
-           alt="Coach"
-           class="w-48 h-48 rounded-xl object-cover mx-auto md:mx-0">
-
-      <div>
-        <h2 class="text-2xl font-bold text-gray-800">Coach Mohamed</h2>
-        <p class="text-purple-600 font-semibold mt-1">Coach Professionnel</p>
-
-        <p class="text-gray-600 mt-4">
-          Coach sportif certifié avec plus de 8 ans d’expérience dans
-          l’entraînement personnalisé et la préparation physique.
-        </p>
-
-        <!-- Sports -->
-        <div class="mt-4">
-          <h3 class="font-semibold text-gray-700 mb-2">Disciplines :</h3>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">Football</span>
-            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">Préparation Physique</span>
-            <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">Athlétisme</span>
-          </div>
-        </div>
+<!-- Ajout de la section recherche et filtres -->
+<section class="bg-white shadow-md">
+  <div class="max-w-6xl mx-auto px-4 py-6">
+    <!-- Barre de recherche -->
+    <div class="mb-6">
+      <div class="relative">
+        <input 
+          type="text" 
+          placeholder="Rechercher un coach par nom, discipline..." 
+          class="w-full px-4 py-3 pl-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+        >
+        <svg class="absolute left-4 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
       </div>
     </div>
-  </section>
 
-  <!-- ===== FORMULAIRE RESERVATION ===== -->
-  <aside class="bg-white rounded-xl shadow p-6">
-    <h3 class="text-xl font-bold text-gray-800 mb-4">Réserver une séance</h3>
-
-    <form class="space-y-4">
-      <!-- Sport -->
+    <!-- Filtres -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Discipline
-        </label>
-        <select class="w-full p-2 border border-gray-300 rounded-md">
-          <option>Choisir un sport</option>
-          <option>Football</option>
-          <option>Préparation Physique</option>
-          <option>Athlétisme</option>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Discipline</label>
+        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+          <option value="">Toutes les disciplines</option>
+          <option value="football">Football</option>
+          <option value="preparation">Préparation Physique</option>
+          <option value="athletisme">Athlétisme</option>
+          <option value="natation">Natation</option>
+          <option value="tennis">Tennis</option>
         </select>
       </div>
 
-      <!-- Date -->
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Date
-        </label>
-        <input type="date"
-               class="w-full p-2 border border-gray-300 rounded-md">
-      </div>
-
-      <!-- Créneau -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">
-          Créneau disponible
-        </label>
-        <select class="w-full p-2 border border-gray-300 rounded-md">
-          <option>08:00 - 10:00</option>
-          <option>14:00 - 16:00</option>
-          <option>18:00 - 20:00</option>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Disponibilité</label>
+        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+          <option value="">Toutes les dates</option>
+          <option value="today">Aujourd'hui</option>
+          <option value="week">Cette semaine</option>
+          <option value="month">Ce mois</option>
         </select>
       </div>
 
-      <!-- Bouton -->
-      <button type="button"
-        class="w-full py-3 bg-purple-600 text-white font-semibold rounded-md hover:bg-purple-700 transition">
-        Réserver la séance
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">Expérience</label>
+        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+          <option value="">Toute expérience</option>
+          <option value="1-3">1-3 ans</option>
+          <option value="3-5">3-5 ans</option>
+          <option value="5+">5+ ans</option>
+        </select>
+      </div>
+
+      <div class="flex items-end">
+        <button class="w-full px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
+          Filtrer
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Container pour afficher les résultats -->
+<main class="max-w-6xl mx-auto px-4 py-10">
+  <!-- Message de résultats -->
+  <div class="mb-6">
+    <p class="text-gray-700"><span class="font-semibold">12 coachs</span> trouvés</p>
+  </div>
+
+  <!-- Grille des coachs -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+    <!-- Coach Card 1 -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6">
+      <img src="https://via.placeholder.com/300x200" alt="Coach" class="w-full h-48 object-cover rounded-lg mb-4">
+      <h3 class="text-xl font-bold text-gray-800">Coach Mohamed</h3>
+      <p class="text-purple-600 font-semibold text-sm mb-2">8 ans d'expérience</p>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Football</span>
+        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Préparation</span>
+      </div>
+      <button class="w-full py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
+        Voir le profil
       </button>
-    </form>
-  </aside>
+    </div>
 
-  <!-- ===== EXPERIENCES ===== -->
-  <section class="bg-white rounded-xl shadow p-6 lg:col-span-2">
-    <h3 class="text-xl font-bold text-gray-800 mb-4">Expériences</h3>
+    <!-- Coach Card 2 -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6">
+      <img src="https://via.placeholder.com/300x200" alt="Coach" class="w-full h-48 object-cover rounded-lg mb-4">
+      <h3 class="text-xl font-bold text-gray-800">Coach Sarah</h3>
+      <p class="text-purple-600 font-semibold text-sm mb-2">5 ans d'expérience</p>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Natation</span>
+        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Fitness</span>
+      </div>
+      <button class="w-full py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
+        Voir le profil
+      </button>
+    </div>
 
-    <ul class="space-y-4">
-      <li class="border-l-4 border-purple-600 pl-4">
-        <h4 class="font-semibold text-gray-800">Salle Fitness Pro</h4>
-        <p class="text-sm text-gray-600">2018 - 2022</p>
-      </li>
+    <!-- Coach Card 3 -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6">
+      <img src="https://via.placeholder.com/300x200" alt="Coach" class="w-full h-48 object-cover rounded-lg mb-4">
+      <h3 class="text-xl font-bold text-gray-800">Coach Karim</h3>
+      <p class="text-purple-600 font-semibold text-sm mb-2">10 ans d'expérience</p>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Tennis</span>
+        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Athlétisme</span>
+      </div>
+      <button class="w-full py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
+        Voir le profil
+      </button>
+    </div>
 
-      <li class="border-l-4 border-purple-600 pl-4">
-        <h4 class="font-semibold text-gray-800">Centre Sportif Elite</h4>
-        <p class="text-sm text-gray-600">2022 - Présent</p>
-      </li>
-    </ul>
-  </section>
+    <!-- Coach Card 4 -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6">
+      <img src="https://via.placeholder.com/300x200" alt="Coach" class="w-full h-48 object-cover rounded-lg mb-4">
+      <h3 class="text-xl font-bold text-gray-800">Coach Amina</h3>
+      <p class="text-purple-600 font-semibold text-sm mb-2">6 ans d'expérience</p>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Yoga</span>
+        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Pilates</span>
+      </div>
+      <button class="w-full py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
+        Voir le profil
+      </button>
+    </div>
 
-  <!-- ===== DISPONIBILITES ===== -->
-  <section class="bg-white rounded-xl shadow p-6">
-    <h3 class="text-xl font-bold text-gray-800 mb-4">Disponibilités</h3>
+    <!-- Coach Card 5 -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6">
+      <img src="https://via.placeholder.com/300x200" alt="Coach" class="w-full h-48 object-cover rounded-lg mb-4">
+      <h3 class="text-xl font-bold text-gray-800">Coach Youssef</h3>
+      <p class="text-purple-600 font-semibold text-sm mb-2">12 ans d'expérience</p>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Football</span>
+        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Basket</span>
+      </div>
+      <button class="w-full py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
+        Voir le profil
+      </button>
+    </div>
 
-    <ul class="space-y-3">
-      <li class="flex justify-between items-center">
-        <span class="text-gray-700">20/12/2024</span>
-        <span class="text-green-600 font-semibold">08:00 - 10:00</span>
-      </li>
-
-      <li class="flex justify-between items-center">
-        <span class="text-gray-700">21/12/2024</span>
-        <span class="text-green-600 font-semibold">14:00 - 16:00</span>
-      </li>
-
-      <li class="flex justify-between items-center">
-        <span class="text-gray-700">22/12/2024</span>
-        <span class="text-red-500 font-semibold">Indisponible</span>
-      </li>
-    </ul>
-  </section>
-
+    <!-- Coach Card 6 -->
+    <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-6">
+      <img src="https://via.placeholder.com/300x200" alt="Coach" class="w-full h-48 object-cover rounded-lg mb-4">
+      <h3 class="text-xl font-bold text-gray-800">Coach Leila</h3>
+      <p class="text-purple-600 font-semibold text-sm mb-2">7 ans d'expérience</p>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Boxe</span>
+        <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">Musculation</span>
+      </div>
+      <button class="w-full py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
+        Voir le profil
+      </button>
+    </div>
+  </div>
 </main>
 
 <!-- ===== FOOTER ===== -->

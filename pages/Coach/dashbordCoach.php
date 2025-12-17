@@ -560,7 +560,6 @@
   </div>
 </div>
 
-<!-- JS to open/close modal -->
 <script>
   const modal = document.getElementById('modal-overlay');
   const openModal = () => modal.classList.remove('hidden');
