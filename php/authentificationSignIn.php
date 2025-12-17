@@ -21,8 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             session_start();
             $_SESSION["user_id"] = $user["id_utilisateur"];
             $_SESSION["email"] = $user["email"];
-
-            header("Location: ../pages/home.php");
+            if($user["role"]=="coach"){
+                header("Location: ../pages/Coach/dashbordCoach.php");
+            }else{
+                header("Location: ../pages/Sportif/dashbordSportif.php");
+            }
+            
             exit;
         } else {
             echo "Mot de passe incorrect";

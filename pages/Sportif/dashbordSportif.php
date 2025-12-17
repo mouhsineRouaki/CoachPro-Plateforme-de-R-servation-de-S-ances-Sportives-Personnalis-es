@@ -1,3 +1,9 @@
+<?php
+require_once "../../php/Sportif/functionSportif.php";
+
+$user = getUtilisateur()
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -18,65 +24,65 @@
 </head>
 
 <body class="flex bg-gray-100 min-h-screen">
-    <aside class="hidden sm:flex sm:flex-col">
-        <a href="#"
-            class="inline-flex items-center justify-center h-20 w-20 bg-purple-600 hover:bg-purple-500 focus:bg-purple-500">
-            <svg fill="none" viewBox="0 0 64 64" class="h-12 w-12">
-                <title>Sport Platform</title>
-                <path
-                    d="M32 14.2c-8 0-12.9 4-14.9 11.9 3-4 6.4-5.6 10.4-4.5 2.3.6 4 2.3 5.7 4 2.9 3 6.3 6.4 13.7 6.4 7.9 0 12.9-4 14.8-11.9-3 4-6.4 5.5-10.3 4.4-2.3-.5-4-2.2-5.7-4-3-3-6.3-6.3-13.7-6.3zM17.1 32C9.2 32 4.2 36 2.3 43.9c3-4 6.4-5.5 10.3-4.4 2.3.5 4 2.2 5.7 4 3 3 6.3 6.3 13.7 6.3 8 0 12.9-4 14.9-11.9-3 4-6.4 5.6-10.4 4.5-2.3-.6-4-2.3-5.7-4-2.9-3-6.3-6.4-13.7-6.4z"
-                    fill="#fff" />
-            </svg>
-        </a>
-        <div class="flex-grow flex flex-col justify-between text-gray-500 bg-gray-800">
-            <nav class="flex flex-col mx-4 my-6 space-y-4">
-                <a href="#" onclick="showPage('home')"
-                    class="nav-link inline-flex items-center justify-center py-3 text-purple-600 bg-white rounded-lg">
-                    <span class="sr-only">Accueil</span>
-                    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                    </svg>
-                </a>
-                <a href="#" onclick="showPage('coachs')"
-                    class="nav-link inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
-                    <span class="sr-only">Coachs</span>
-                    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </a>
-                <a href="#" onclick="showPage('reservations')"
-                    class="nav-link inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
-                    <span class="sr-only">Mes Réservations</span>
-                    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                </a>
-                <a href="#" onclick="showPage('profil')"
-                    class="nav-link inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
-                    <span class="sr-only">Mon Profil</span>
-                    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                </a>
-            </nav>
-            <div class="inline-flex items-center justify-center h-20 w-20 border-t border-gray-700">
-                <button
-                    class="p-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
-                    <span class="sr-only">Paramètres</span>
-                    <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                </button>
-            </div>
+    <aside class="hidden sm:flex sm:flex-col w-20">
+    <a href="#"
+        class="inline-flex items-center justify-center h-20 w-20 bg-purple-600 hover:bg-purple-500 focus:bg-purple-500">
+        <svg fill="none" viewBox="0 0 64 64" class="h-12 w-12">
+            <title>Sport Platform</title>
+            <path
+                d="M32 14.2c-8 0-12.9 4-14.9 11.9 3-4 6.4-5.6 10.4-4.5 2.3.6 4 2.3 5.7 4 2.9 3 6.3 6.4 13.7 6.4 7.9 0 12.9-4 14.8-11.9-3 4-6.4 5.5-10.3 4.4-2.3-.5-4-2.2-5.7-4-3-3-6.3-6.3-13.7-6.3zM17.1 32C9.2 32 4.2 36 2.3 43.9c3-4 6.4-5.5 10.3-4.4 2.3.5 4 2.2 5.7 4 3 3 6.3 6.3 13.7 6.3 8 0 12.9-4 14.9-11.9-3 4-6.4 5.6-10.4 4.5-2.3-.6-4-2.3-5.7-4-2.9-3-6.3-6.4-13.7-6.4z"
+                fill="#fff" />
+        </svg>
+    </a>
+    <div class="flex-grow flex flex-col justify-between text-gray-500 bg-gray-800">
+        <nav class="flex flex-col mx-4 my-6 space-y-4">
+            <a href="./dashbordSportif.php" 
+                class="inline-flex items-center justify-center py-3 rounded-lg">
+                <span class="sr-only">Accueil</span>
+                <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+            </a>
+            <a href="./decouvrirCoach.php"
+                class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 bg-white text-purple-600  rounded-lg">
+                <span class="sr-only">Coachs</span>
+                <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </a>
+            <a href="reservationSportif.php"
+                class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
+                <span class="sr-only">Mes Réservations</span>
+                <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+            </a>
+            <a href="profilSportif.php"
+                class="inline-flex items-center justify-center py-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
+                <span class="sr-only">Mon Profil</span>
+                <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            </a>
+        </nav>
+        <div class="inline-flex items-center justify-center h-20 w-20 border-t border-gray-700">
+            <button
+                class="p-3 hover:text-gray-400 hover:bg-gray-700 focus:text-gray-400 focus:bg-gray-700 rounded-lg">
+                <span class="sr-only">Paramètres</span>
+                <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31 2.37 2.37a1.724 1.724 0 002.572 1.065.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </button>
         </div>
-    </aside>
+    </div>
+  </aside>
 
     <div class="flex-grow text-gray-800">
         <header class="flex items-center h-20 px-6 sm:px-10 bg-white">
@@ -101,8 +107,8 @@
                 <button class="inline-flex items-center p-2 hover:bg-gray-100 focus:bg-gray-100 rounded-lg">
                     <span class="sr-only">Menu Utilisateur</span>
                     <div class="hidden md:flex md:flex-col md:items-end md:leading-tight">
-                        <span class="font-semibold">Karim Sportif</span>
-                        <span class="text-sm text-gray-600">Membre depuis 2024</span>
+                        <span class="font-semibold"><?= $user["nom"]; $user["prenom"]    ?></span>
+                        <span class="text-sm text-gray-600"><?= $user["date_creation"];    ?></span>
                     </div>
                     <span class="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
                         <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
@@ -143,7 +149,7 @@
         <main id="home" class="page active p-6 sm:p-10 space-y-6">
             <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
                 <div class="mr-6">
-                    <h1 class="text-4xl font-semibold mb-2">Bienvenue Karim</h1>
+                    <h1 class="text-4xl font-semibold mb-2">Bienvenue <?= $user["prenom"]    ?></h1>
                     <h2 class="text-gray-600 ml-0.5">Trouvez votre coach idéal et réservez vos séances sportives</h2>
                 </div>
                 <div class="flex flex-wrap items-start justify-end -mb-3">
@@ -169,7 +175,7 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="block text-2xl font-bold">45</span>
+                        <span class="block text-2xl font-bold"><?php echo getNombreTotalCoach()?></span>
                         <span class="block text-gray-500">Coachs disponibles</span>
                     </div>
                 </div>
@@ -183,7 +189,7 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="block text-2xl font-bold">3</span>
+                        <span class="block text-2xl font-bold"><?= getNombreSeaneByStatus("confirmee")?></span>
                         <span class="block text-gray-500">Séances confirmées</span>
                     </div>
                 </div>
@@ -197,7 +203,7 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="block text-2xl font-bold">2</span>
+                        <span class="block text-2xl font-bold"><?php echo getNombreSeaneByStatus("en_attente")?></span>
                         <span class="block text-gray-500">En attente</span>
                     </div>
                 </div>
@@ -211,7 +217,7 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="block text-2xl font-bold">12</span>
+                        <span class="block text-2xl font-bold"><?php echo getNombreSeaneByStatus("terminee")?></span>
                         <span class="block text-gray-500">Séances terminées</span>
                     </div>
                 </div>
@@ -270,7 +276,7 @@
                                     ⚽</div>
                                 <span class="font-semibold">Football</span>
                             </div>
-                            <span class="text-sm text-gray-600">15 coachs</span>
+                            <span class="text-sm text-gray-600"><?php echo getNombreCoachParSport("Football")?> coachs</span>
                         </div>
                         <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
                             <div class="flex items-center">
@@ -279,7 +285,7 @@
                                     🎾</div>
                                 <span class="font-semibold">Tennis</span>
                             </div>
-                            <span class="text-sm text-gray-600">12 coachs</span>
+                            <span class="text-sm text-gray-600"><?php echo getNombreCoachParSport("Tennis")?> coachs</span>
                         </div>
                         <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
                             <div class="flex items-center">
@@ -288,23 +294,21 @@
                                     🏊</div>
                                 <span class="font-semibold">Natation</span>
                             </div>
-                            <span class="text-sm text-gray-600">8 coachs</span>
+                            <span class="text-sm text-gray-600"><?php echo getNombreCoachParSport("Natation")?> coachs</span>
                         </div>
                         <div class="flex items-center justify-between p-3 bg-orange-50 rounded-lg">
                             <div class="flex items-center">
                                 <div
-                                    class="h-10 w-10 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
-                                    💪</div>
-                                <span class="font-semibold">Préparation Physique</span>
+                                    class="h-10 w-10 bg-orange-600 rounded-full flex items-center justify-center text-white font-bold mr-3"></div>
+                                <span class="font-semibold">Fitness</span>
                             </div>
-                            <span class="text-sm text-gray-600">10 coachs</span>
+                            <span class="text-sm text-gray-600"><?php echo getNombreCoachParSport("Fitness")?> coachs</span>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
 
-        <!-- PAGE COACHS -->
         <main id="coachs" class="page p-6 sm:p-10 space-y-6">
             <div class="flex flex-col space-y-6 md:space-y-0 md:flex-row justify-between">
                 <div class="mr-6">
