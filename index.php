@@ -1,6 +1,4 @@
-<?php
-require_once "./config/connexion.php";
-  ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -17,7 +15,7 @@ require_once "./config/connexion.php";
 
     <div class="forms-container">
       <div class="form-control signup-form">
-        <form method="POST" action="./php/authentification.php">
+        <form method="POST" action="./php/authentificationSignUp.php">
           <h2>Inscription</h2>
 
           <input type="text" placeholder="Nom" name="nom">
@@ -34,18 +32,18 @@ require_once "./config/connexion.php";
           <input type="password" placeholder="Mot de passe" name="password">
           <input type="password" placeholder="Confirmer mot de passe">
 
-          <button name="sinscrire" type="submit">S'inscrire</button>
+          <button name="sinscrire">S'inscrire</button>
         </form>
       </div>
 
       <div class="form-control signin-form">
-        <form method="POST" action="./php/authentification.php">
+        <form method="POST" action="./php/authentificationSignIn.php">
           <h2>Connexion</h2>
 
           <input type="email" placeholder="Email" name="email">
           <input type="password" placeholder="Mot de passe" name="password">
 
-          <button name="se_connecter" type="submit">Se connecter</button>
+          <button name="se_connecter">Se connecter</button>
         </form>
       </div>
 
