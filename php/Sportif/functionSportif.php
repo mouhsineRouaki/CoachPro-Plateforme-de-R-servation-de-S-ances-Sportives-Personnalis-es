@@ -4,7 +4,7 @@ session_start();
 
 function getUtilisateur(){
     global $conn;
-    $stmt = $conn->prepare("SELECT * FROM utilisateur WHERE id_utilisateur = ?");
+    $stmt = $conn->prepare("SELECT *,YEAR(date_creation) as dateU FROM utilisateur WHERE id_utilisateur = ?");
     $stmt->bind_param("i", $_SESSION["user_id"]);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -53,6 +53,48 @@ function getStatistiquesReservations(){
         'annulees' => getNombreReservationsByStatus('annulee')
     ];
 }
+function filterCoach($recherche, $sport, $annee_experience, $date) {
+    global $conn;
+
+    $sql = "
+        SELECT 
+            u.nom,
+            u.prenom,
+            c.annee_experience,
+            s.nom_sport,
+            d.date
+        FROM utilisateur u
+        INNER JOIN coach c ON c.id_utilisateur = u.id_utilisateur
+        INNER JOIN coach_sport cs ON cs.id_coach = c.id_coach
+        INNER JOIN sport s ON s.id_sport = cs.id_sport
+        INNER JOIN disponibilite d ON d.id_coach = c.id_coach
+        WHERE 
+            (u.nom LIKE ? OR u.prenom LIKE ?)
+            AND (? = '' OR s.nom_sport = ?)
+            AND (? = '' OR d.date = ?)
+            AND (? = '' OR c.annee_experience >= ?)
+    ";
+
+    $stmt = $conn->prepare($sql);
+
+    $like = "%$recherche%";
+
+    $stmt->bind_param(
+        "ssssssss",
+        $like,
+        $like,
+        $sport,
+        $sport,
+        $date,
+        $date,
+        $annee_experience,
+        $annee_experience
+    );
+
+    $stmt->execute();
+    return $stmt->get_result();
+}
+
 
 function getProchaineSeance(){
     global $conn;
@@ -77,6 +119,37 @@ function getProchaineSeance(){
     $result = $stmt->get_result();
     return $result->fetch_assoc();
 }
+function confirmeProchaineSeance(){
+    if(getProchaineSeance()){
+        return true;
+    }
+    return false ;
+}
+function createCoachCard($coach) {
+    $img = !empty($coach['coach_img']) ? $coach['coach_img'] : 'https://placehold.net/avatar.svg';
+
+    $disciplinesHtml = '';
+    if (!empty($coach['disciplines']) && is_array($coach['disciplines'])) {
+        foreach ($coach['disciplines'] as $d) {
+            $disciplinesHtml .= '<span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">'.$d.'</span>';
+        }
+    }
+
+    return '
+    <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all duration-300 p-6 transform hover:-translate-y-1">
+        <img src="'.$img.'" 
+             alt="'.$coach['nom'].' '.$coach['prenom'].'" 
+             class="w-full h-48 object-cover rounded-lg mb-4">
+        <h3 class="text-xl font-bold text-gray-800">'.$coach['nom'].' '.$coach['prenom'].'</h3>
+        <p class="text-purple-600 font-semibold text-sm mb-2">'.$coach['annee_experience'].' ans d\'expérience</p>
+        <div class="flex flex-wrap gap-2 mb-4">'.$disciplinesHtml.'</div>
+        <button class="w-full py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
+            Voir le profil
+        </button>
+    </div>';
+}
+
+
 
 
 function getToutesReservations($limit = null){
@@ -142,7 +215,7 @@ function getReservationsAVenir(){
     return $reservations;
 }
 
-function getTousLesCoaches($limit = null){
+function getTousLesCoaches(){
     global $conn;
     
     $query = "
@@ -156,22 +229,12 @@ function getTousLesCoaches($limit = null){
         ORDER BY u.nom ASC
     ";
     
-    if ($limit) {
-        $query .= " LIMIT ?";
-    }
-    
     $stmt = $conn->prepare($query);
-    if ($limit) {
-        $stmt->bind_param("i", $limit);
-    }
     $stmt->execute();
     $result = $stmt->get_result();
-    
-    $coaches = [];
     while ($row = $result->fetch_assoc()) {
-        $coaches[] = $row;
+       echo createCoachCard($row);
     }
-    return $coaches;
 }
 
 function getNombreCoachParSport($nom_sport){

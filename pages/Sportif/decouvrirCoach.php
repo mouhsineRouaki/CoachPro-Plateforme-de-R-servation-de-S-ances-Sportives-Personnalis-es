@@ -1,3 +1,8 @@
+<?php
+require_once "../../php/Sportif/functionSportif.php";
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -123,7 +128,6 @@
 
 <section class="bg-white shadow-md">
   <div class="max-w-6xl mx-auto px-4 py-6">
-    <!-- Barre de recherche -->
     <div class="mb-6">
       <div class="relative">
         <input 
@@ -138,7 +142,6 @@
       </div>
     </div>
 
-    <!-- Filtres -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-2">Discipline</label>
@@ -183,14 +186,13 @@
   </div>
 </section>
 
-<!-- Container dynamique pour les résultats -->
-<main class="max-w-6xl mx-auto px-4 py-10">
+<main class="max-w-6xl mx-auto px-4 py-10 w-full">
   <div class="mb-6">
     <p class="text-gray-700"><span id="resultCount" class="font-semibold">12 coachs</span> trouvés</p>
   </div>
 
-  <div id="coachGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-    <!-- Les cartes seront générées par JavaScript -->
+  <div id="coachGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10 w">
+    <?php getTousLesCoaches()?>
   </div>
 
   <!-- Message si aucun résultat -->
@@ -210,168 +212,44 @@
     </footer>
   </div>
 </div>
-<!-- Fin du container flex -->
 
-<!-- Ajout du JavaScript pour la fonctionnalité dynamique -->
 <script>
-  // Données des coachs
-  const coaches = [
-    {
-      id: 1,
-      name: "Coach Mohamed",
-      experience: 8,
-      disciplines: ["Football", "Préparation"],
-      image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?w=300&h=200&fit=crop",
-      available: "today"
-    },
-    {
-      id: 2,
-      name: "Coach Sarah",
-      experience: 5,
-      disciplines: ["Natation", "Fitness"],
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=200&fit=crop",
-      available: "week"
-    },
-    {
-      id: 3,
-      name: "Coach Karim",
-      experience: 10,
-      disciplines: ["Tennis", "Athlétisme"],
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop",
-      available: "month"
-    },
-    {
-      id: 4,
-      name: "Coach Amina",
-      experience: 6,
-      disciplines: ["Yoga", "Pilates"],
-      image: "https://images.unsplash.com/photo-1544005313942-b8d87734a5a2?w=300&h=200&fit=crop",
-      available: "today"
-    },
-    {
-      id: 5,
-      name: "Coach Youssef",
-      experience: 12,
-      disciplines: ["Football", "Basket"],
-      image: "https://images.unsplash.com/photo-1500648767791-15a19d654956?w=300&h=200&fit=crop",
-      available: "week"
-    },
-    {
-      id: 6,
-      name: "Coach Leila",
-      experience: 7,
-      disciplines: ["Boxe", "Musculation"],
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=200&fit=crop",
-      available: "month"
-    },
-    {
-      id: 7,
-      name: "Coach Ahmed",
-      experience: 9,
-      disciplines: ["Football", "Préparation"],
-      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&h=200&fit=crop",
-      available: "today"
-    },
-    {
-      id: 8,
-      name: "Coach Fatima",
-      experience: 4,
-      disciplines: ["Fitness", "Yoga"],
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&h=200&fit=crop",
-      available: "week"
-    }
-  ];
+  
+  function updateGrid() {
+    const recherche = document.getElementById('searchInput').value;
+    const sport = document.getElementById('disciplineFilter').value;
+    const experience = document.getElementById('experienceFilter').value;
+    const date = document.getElementById('availabilityFilter').value;
 
-  // Fonction pour créer une carte de coach
-  function createCoachCard(coach) {
-    return `
-      <div class="bg-white rounded-xl shadow hover:shadow-lg transition-all duration-300 p-6 transform hover:-translate-y-1">
-        <img src="${coach.image}" alt="${coach.name}" class="w-full h-48 object-cover rounded-lg mb-4">
-        <h3 class="text-xl font-bold text-gray-800">${coach.name}</h3>
-        <p class="text-purple-600 font-semibold text-sm mb-2">${coach.experience} ans d'expérience</p>
-        <div class="flex flex-wrap gap-2 mb-4">
-          ${coach.disciplines.map(d => `
-            <span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">${d}</span>
-          `).join('')}
-        </div>
-        <button class="w-full py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
-          Voir le profil
-        </button>
-      </div>
-    `;
+    const url = `../../php/Sportif/filterCoach.php?recherche=${recherche}&sport=${sport}&experience=${experience}&date=${date}`;
+
+    fetch(url)
+        .then(res => res.text())
+        .then(html => {
+            document.getElementById('coachGrid').innerHTML = html;
+        });
+}
+
+document.getElementById('searchInput').addEventListener('input',()=>{
+  if(document.getElementById('searchInput').value == ""){
+    document.getElementById('coachGrid').innerHTML = `<?php getTousLesCoaches(); ?>`
+  }else{
+    updateGrid()
   }
 
-  // Fonction pour afficher les coachs
-  function displayCoaches(coachList) {
-    const grid = document.getElementById('coachGrid');
-    const noResults = document.getElementById('noResults');
-    const resultCount = document.getElementById('resultCount');
+});
+document.getElementById('disciplineFilter').addEventListener('change', updateGrid);
+document.getElementById('availabilityFilter').addEventListener('change', updateGrid);
+document.getElementById('experienceFilter').addEventListener('change', updateGrid);
 
-    if (coachList.length === 0) {
-      grid.classList.add('hidden');
-      noResults.classList.remove('hidden');
-      resultCount.textContent = '0 coach';
-    } else {
-      grid.classList.remove('hidden');
-      noResults.classList.add('hidden');
-      grid.innerHTML = coachList.map(coach => createCoachCard(coach)).join('');
-      resultCount.textContent = `${coachList.length} coach${coachList.length > 1 ? 's' : ''}`;
-    }
-  }
+document.getElementById("resetBtn").addEventListener("click" , ()=>{
+  document.getElementById('searchInput').value = "";
+  document.getElementById('disciplineFilter').value = "";
+  document.getElementById('availabilityFilter').value = "";
+  document.getElementById('experienceFilter').value = "";
+  document.getElementById('coachGrid').innerHTML = `<?php getTousLesCoaches(); ?>`
+})
 
-  // Fonction de filtrage
-  function filterCoaches() {
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    const disciplineFilter = document.getElementById('disciplineFilter').value.toLowerCase();
-    const availabilityFilter = document.getElementById('availabilityFilter').value;
-    const experienceFilter = document.getElementById('experienceFilter').value;
-
-    const filtered = coaches.filter(coach => {
-      // Filtre de recherche
-      const matchesSearch = coach.name.toLowerCase().includes(searchTerm) || 
-                           coach.disciplines.some(d => d.toLowerCase().includes(searchTerm));
-      
-      // Filtre de discipline
-      const matchesDiscipline = !disciplineFilter || 
-                               coach.disciplines.some(d => d.toLowerCase().includes(disciplineFilter));
-      
-      // Filtre de disponibilité
-      const matchesAvailability = !availabilityFilter || coach.available === availabilityFilter;
-      
-      // Filtre d'expérience
-      let matchesExperience = true;
-      if (experienceFilter === '1-5') {
-        matchesExperience = coach.experience >= 1 && coach.experience <= 5;
-      } else if (experienceFilter === '6-10') {
-        matchesExperience = coach.experience >= 6 && coach.experience <= 10;
-      } else if (experienceFilter === '10+') {
-        matchesExperience = coach.experience > 10;
-      }
-
-      return matchesSearch && matchesDiscipline && matchesAvailability && matchesExperience;
-    });
-
-    displayCoaches(filtered);
-  }
-
-  // Fonction de réinitialisation
-  function resetFilters() {
-    document.getElementById('searchInput').value = '';
-    document.getElementById('disciplineFilter').value = '';
-    document.getElementById('availabilityFilter').value = '';
-    document.getElementById('experienceFilter').value = '';
-    displayCoaches(coaches);
-  }
-
-  // Event listeners
-  document.getElementById('searchInput').addEventListener('input', filterCoaches);
-  document.getElementById('disciplineFilter').addEventListener('change', filterCoaches);
-  document.getElementById('availabilityFilter').addEventListener('change', filterCoaches);
-  document.getElementById('experienceFilter').addEventListener('change', filterCoaches);
-  document.getElementById('resetBtn').addEventListener('click', resetFilters);
-
-  // Affichage initial
-  displayCoaches(coaches);
 </script>
 
 </body>

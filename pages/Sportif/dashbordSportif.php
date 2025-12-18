@@ -1,7 +1,8 @@
 <?php
 require_once "../../php/Sportif/functionSportif.php";
 
-$user = getUtilisateur()
+$user = getUtilisateur();
+$confirmeProchineSeance = confirmeProchaineSeance();
 ?>
 
 <!DOCTYPE html>
@@ -226,6 +227,7 @@ $user = getUtilisateur()
             <section class="grid md:grid-cols-2 gap-6">
                 <div class="bg-white shadow rounded-lg p-6">
                     <h3 class="text-xl font-semibold mb-4">Prochaine Séance</h3>
+                    <?php if($confirmeProchineSeance){?>
                     <div class="flex items-center mb-4">
                         <div class="h-16 w-16 mr-4 bg-gray-100 rounded-full overflow-hidden">
                             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
@@ -264,7 +266,13 @@ $user = getUtilisateur()
                     </div>
                     <button class="mt-4 w-full px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700">Voir
                         les détails</button>
+                        <?php }else{?>
+                    <div class=" items-center mb-4">
+                        <span>aucun Prochaine seance </span>
+                    </div>
+                    <?php }?>
                 </div>
+                
 
                 <div class="bg-white shadow rounded-lg p-6">
                     <h3 class="text-xl font-semibold mb-4">Disciplines Populaires</h3>

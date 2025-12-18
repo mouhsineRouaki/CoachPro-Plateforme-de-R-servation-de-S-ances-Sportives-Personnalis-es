@@ -1,3 +1,4 @@
+Drop DATABASE coaching_platform ; 
 CREATE DATABASE IF NOT EXISTS coaching_platform;
 USE coaching_platform;
 
@@ -19,6 +20,7 @@ CREATE TABLE coach (
     biographie TEXT,
     coach_img VARCHAR(100),
     niveau VARCHAR(50),
+    annee_experience int ,
     FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id_utilisateur)
 );
 
@@ -83,6 +85,8 @@ CREATE TABLE reservation (
     heure_fin INT,
     status VARCHAR(50),
     date_reservation DATETIME,
+    id_sport INT
     FOREIGN KEY (id_sportif) REFERENCES sportif(id_sportif),
     FOREIGN KEY (id_coach) REFERENCES coach(id_coach)
+    FOREIGN KEY (id_sport) REFERENCES sport(id_sport)
 );

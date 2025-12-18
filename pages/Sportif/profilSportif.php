@@ -1,3 +1,10 @@
+<?php  require "../../php/Sportif/functionSportif.php"; 
+$user = getUtilisateur();
+$sportif = getSportif();
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -81,7 +88,7 @@
       <div class="bg-white rounded-xl shadow-md p-6 mb-6">
         <div class="flex items-center space-x-6">
           <div class="relative">
-            <img id="profileImage" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop" 
+            <img id="profileImage" src="<?= $sportif["sportif_img"] ?>" 
                  alt="Photo de profil" 
                  class="w-32 h-32 rounded-full object-cover border-4 border-purple-100">
             <button id="changePhotoBtn" class="absolute bottom-0 right-0 bg-purple-600 text-white p-2 rounded-full hover:bg-purple-700 transition">
@@ -92,9 +99,9 @@
             </button>
           </div>
           <div>
-            <h2 id="displayName" class="text-2xl font-bold text-gray-800">Mohamed Ali</h2>
-            <p class="text-purple-600 font-semibold">Sportif Amateur</p>
-            <p class="text-sm text-gray-500 mt-1">Membre depuis janvier 2024</p>
+            <h2 id="displayName" class="text-2xl font-bold text-gray-800"><?= $user['nom']; $user['prenom'] ?></h2>
+            <p class="text-purple-600 font-semibold"><?= $user['role'];?>  Amateur</p>
+            <p class="text-sm text-gray-500 mt-1">Membre depuis <?= $user['dateU'];?> </p>
           </div>
         </div>
       </div>
@@ -107,35 +114,35 @@
           </button>
         </div>
 
-        <form id="personalForm" class="space-y-4">
+        <form id="personalForm" class="space-y-4" method="POST" action="../../php/Sportif/modifierSportifInfo.php">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Nom</label>
-              <input type="text" id="nom" value="Ali" disabled
+              <input type="text" id="nom" name="nom" value="<?= $user["nom"] ?>" disabled
                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100">
             </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Prénom</label>
-              <input type="text" id="prenom" value="Mohamed" disabled
+              <input type="text" id="prenom" name="prenom" value="<?= $user["prenom"] ?>" disabled
                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100">
             </div>
           </div>
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-            <input type="email" id="email" value="mohamed.ali@example.com" disabled
+            <input type="email" id="email" name="email" value="<?= $user["email"] ?>" disabled
                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100">
           </div>
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Téléphone</label>
-            <input type="tel" id="telephone" value="+212 6 12 34 56 78" disabled
+            <input type="tel" id="telephone" name="telephone" value="<?= $user["telephone"] ?>" disabled
                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100">
           </div>
 
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Rôle</label>
-            <input type="text" id="role" value="Sportif" disabled
+            <label class="block text-sm font-medium text-gray-700 mb-2">Image URL</label>
+            <input type="text" id="role" name="url_image" value="<?= $sportif["sportif_img"] ?>" disabled
                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100">
           </div>
 
@@ -158,10 +165,10 @@
           </button>
         </div>
 
-        <form id="sportForm" class="space-y-4">
+        <form id="sportForm" class="space-y-4" method="POST" action="../../php/Sportif/modificationSportifinfo2.php">
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Niveau</label>
-            <select id="niveau" disabled
+            <select id="niveau" disabled name="niveau" 
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100">
               <option value="Débutant">Débutant</option>
               <option value="Intermédiaire" selected>Intermédiaire</option>
@@ -172,8 +179,8 @@
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Objectif</label>
-            <textarea id="objectif" rows="4" disabled
-                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100">Améliorer ma condition physique générale et perdre du poids. Je souhaite également gagner en endurance pour participer à un semi-marathon d'ici 6 mois.</textarea>
+            <textarea id="objectif" rows="4" disabled name="objectif" 
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 disabled:bg-gray-100"><?= $sportif["objectif"] ?></textarea>
           </div>
 
           <div id="sportActions" class="hidden flex space-x-3">
@@ -214,22 +221,22 @@
       </button>
     </div>
 
-    <form id="passwordForm" class="space-y-4">
+    <form id="passwordForm" class="space-y-4" method="POST" action="../../php/Sportif/modifierMotPassSportif.php">
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-2">Mot de passe actuel</label>
-        <input type="password" id="currentPassword" required
+        <input type="password" id="currentPassword" name="currentPassword" required
                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
       </div>
 
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-2">Nouveau mot de passe</label>
-        <input type="password" id="newPassword" required
+        <input type="password" id="newPassword" name="newPassword" required
                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
       </div>
 
       <div>
         <label class="block text-sm font-medium text-gray-700 mb-2">Confirmer le nouveau mot de passe</label>
-        <input type="password" id="confirmPassword" required
+        <input type="password" id="confirmPassword" name="confirmPassword" required
                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
       </div>
 
@@ -253,142 +260,87 @@
 </div>
 
 <script>
-  const editPersonalBtn = document.getElementById('editPersonalBtn');
-  const personalForm = document.getElementById('personalForm');
-  const personalActions = document.getElementById('personalActions');
-  const cancelPersonalBtn = document.getElementById('cancelPersonalBtn');
-  
-  const personalInputs = ['nom', 'prenom', 'email', 'telephone', 'role'];
-  let originalPersonalData = {};
+/* =======================
+   TOAST
+======================= */
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  const toastMessage = document.getElementById('toastMessage');
+  toastMessage.textContent = message;
+  toast.classList.remove('hidden');
 
-  editPersonalBtn.addEventListener('click', () => {
-    personalInputs.forEach(id => {
-      const input = document.getElementById(id);
-      originalPersonalData[id] = input.value;
-      input.disabled = false;
-    });
-    editPersonalBtn.classList.add('hidden');
-    personalActions.classList.remove('hidden');
-  });
+  setTimeout(() => {
+    toast.classList.add('hidden');
+  }, 3000);
+}
 
-  cancelPersonalBtn.addEventListener('click', () => {
-    personalInputs.forEach(id => {
-      const input = document.getElementById(id);
-      input.value = originalPersonalData[id];
-      input.disabled = true;
-    });
-    editPersonalBtn.classList.remove('hidden');
-    personalActions.classList.add('hidden');
-  });
+/* =======================
+   INFORMATIONS PERSONNELLES
+======================= */
+const editPersonalBtn = document.getElementById('editPersonalBtn');
+const cancelPersonalBtn = document.getElementById('cancelPersonalBtn');
+const personalActions = document.getElementById('personalActions');
 
-  personalForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    personalInputs.forEach(id => {
-      document.getElementById(id).disabled = true;
-    });
-    editPersonalBtn.classList.remove('hidden');
-    personalActions.classList.add('hidden');
-    
-    const nom = document.getElementById('nom').value;
-    const prenom = document.getElementById('prenom').value;
-    document.getElementById('displayName').textContent = `${prenom} ${nom}`;
-    
-    showToast('Informations personnelles mises à jour avec succès!');
-  });
+const personalInputs = document.querySelectorAll(
+  '#personalForm input'
+);
 
-  const editSportBtn = document.getElementById('editSportBtn');
-  const sportForm = document.getElementById('sportForm');
-  const sportActions = document.getElementById('sportActions');
-  const cancelSportBtn = document.getElementById('cancelSportBtn');
-  
-  const sportInputs = ['niveau', 'objectif'];
-  let originalSportData = {};
+editPersonalBtn.addEventListener('click', () => {
+  personalInputs.forEach(input => input.disabled = false);
+  editPersonalBtn.classList.add('hidden');
+  personalActions.classList.remove('hidden');
+});
 
-  editSportBtn.addEventListener('click', () => {
-    sportInputs.forEach(id => {
-      const input = document.getElementById(id);
-      originalSportData[id] = input.value;
-      input.disabled = false;
-    });
-    editSportBtn.classList.add('hidden');
-    sportActions.classList.remove('hidden');
-  });
+cancelPersonalBtn.addEventListener('click', () => {
+  personalInputs.forEach(input => input.disabled = true);
+  editPersonalBtn.classList.remove('hidden');
+  personalActions.classList.add('hidden');
+});
 
-  cancelSportBtn.addEventListener('click', () => {
-    sportInputs.forEach(id => {
-      const input = document.getElementById(id);
-      input.value = originalSportData[id];
-      input.disabled = true;
-    });
-    editSportBtn.classList.remove('hidden');
-    sportActions.classList.add('hidden');
-  });
+/* =======================
+   INFORMATIONS SPORTIVES
+======================= */
+const editSportBtn = document.getElementById('editSportBtn');
+const cancelSportBtn = document.getElementById('cancelSportBtn');
+const sportActions = document.getElementById('sportActions');
 
-  sportForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    sportInputs.forEach(id => {
-      document.getElementById(id).disabled = true;
-    });
-    editSportBtn.classList.remove('hidden');
-    sportActions.classList.add('hidden');
-    showToast('Informations sportives mises à jour avec succès!');
-  });
+const sportInputs = document.querySelectorAll(
+  '#sportForm select, #sportForm textarea'
+);
 
-  document.getElementById('changePhotoBtn').addEventListener('click', () => {
-    alert('Fonctionnalité de changement de photo à implémenter avec un backend');
-  });
+editSportBtn.addEventListener('click', () => {
+  sportInputs.forEach(input => input.disabled = false);
+  editSportBtn.classList.add('hidden');
+  sportActions.classList.remove('hidden');
+});
 
-  const passwordModal = document.getElementById('passwordModal');
-  const changePasswordBtn = document.getElementById('changePasswordBtn');
-  const closePasswordModal = document.getElementById('closePasswordModal');
-  const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
-  const passwordForm = document.getElementById('passwordForm');
+cancelSportBtn.addEventListener('click', () => {
+  sportInputs.forEach(input => input.disabled = true);
+  editSportBtn.classList.remove('hidden');
+  sportActions.classList.add('hidden');
+});
 
-  changePasswordBtn.addEventListener('click', () => {
-    passwordModal.classList.remove('hidden');
-  });
+/* =======================
+   MODAL MOT DE PASSE
+======================= */
+const passwordModal = document.getElementById('passwordModal');
+const changePasswordBtn = document.getElementById('changePasswordBtn');
+const closePasswordModal = document.getElementById('closePasswordModal');
+const cancelPasswordBtn = document.getElementById('cancelPasswordBtn');
 
-  closePasswordModal.addEventListener('click', () => {
-    passwordModal.classList.add('hidden');
-    passwordForm.reset();
-  });
+changePasswordBtn.addEventListener('click', () => {
+  passwordModal.classList.remove('hidden');
+});
 
-  cancelPasswordBtn.addEventListener('click', () => {
-    passwordModal.classList.add('hidden');
-    passwordForm.reset();
-  });
+closePasswordModal.addEventListener('click', () => {
+  passwordModal.classList.add('hidden');
+});
 
-  passwordForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const newPassword = document.getElementById('newPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-
-    if (newPassword !== confirmPassword) {
-      alert('Les mots de passe ne correspondent pas!');
-      return;
-    }
-
-    if (newPassword.length < 8) {
-      alert('Le mot de passe doit contenir au moins 8 caractères!');
-      return;
-    }
-
-    passwordModal.classList.add('hidden');
-    passwordForm.reset();
-    showToast('Mot de passe changé avec succès!');
-  });
-
-  function showToast(message) {
-    const toast = document.getElementById('toast');
-    const toastMessage = document.getElementById('toastMessage');
-    toastMessage.textContent = message;
-    toast.classList.remove('hidden');
-    
-    setTimeout(() => {
-      toast.classList.add('hidden');
-    }, 3000);
-  }
+cancelPasswordBtn.addEventListener('click', () => {
+  passwordModal.classList.add('hidden');
+});
 </script>
+
 
 </body>
 </html>
