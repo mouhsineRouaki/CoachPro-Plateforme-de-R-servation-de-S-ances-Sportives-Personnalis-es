@@ -15,7 +15,7 @@ function filterCoach($recherche, $sport, $annee_experience, $date) {
             u.prenom,
             c.annee_experience,
             c.coach_img,
-            c.id_coach
+            c.id_coach,
             s.nom_sport,
             d.date
         FROM utilisateur u
@@ -51,8 +51,8 @@ if ($result->num_rows > 0) {
                 $html .= '<span class="px-2 py-1 bg-purple-100 text-purple-700 rounded-full text-xs">'.$d.'</span>';
             }
         $html .= '</div>
-            <button class="w-full py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition" onclick="location.href = "../../pages/Sportif/detailsCoach.php?id_coach='.$coach['id_coach'].'"">
-                Voir le profil
+            <button class="w-full py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition" >
+                <a href="../../pages/Sportif/detailsCoach.php?id_coach='.$coach['id_coach'].'">Voir le profil</a>
             </button>
         </div>';
     }
