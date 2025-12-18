@@ -189,7 +189,7 @@ $user = getUtilisateur()
                         </svg>
                     </div>
                     <div>
-                        <span class="block text-2xl font-bold"><?= getNombreSeaneByStatus("confirmee")?></span>
+                        <span class="block text-2xl font-bold"><?= getNombreReservationsByStatus("confirmee")?></span>
                         <span class="block text-gray-500">Séances confirmées</span>
                     </div>
                 </div>
@@ -203,7 +203,7 @@ $user = getUtilisateur()
                         </svg>
                     </div>
                     <div>
-                        <span class="block text-2xl font-bold"><?php echo getNombreSeaneByStatus("en_attente")?></span>
+                        <span class="block text-2xl font-bold"><?php echo getNombreReservationsByStatus("en_attente")?></span>
                         <span class="block text-gray-500">En attente</span>
                     </div>
                 </div>
@@ -217,7 +217,7 @@ $user = getUtilisateur()
                         </svg>
                     </div>
                     <div>
-                        <span class="block text-2xl font-bold"><?php echo getNombreSeaneByStatus("terminee")?></span>
+                        <span class="block text-2xl font-bold"><?php echo getNombreReservationsByStatus("terminee")?></span>
                         <span class="block text-gray-500">Séances terminées</span>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS sport_coach_platform;
-USE sport_coach_platform;
+CREATE DATABASE IF NOT EXISTS coaching_platform;
+USE coaching_platform;
 
 CREATE TABLE utilisateur (
     id_utilisateur INT AUTO_INCREMENT PRIMARY KEY,
