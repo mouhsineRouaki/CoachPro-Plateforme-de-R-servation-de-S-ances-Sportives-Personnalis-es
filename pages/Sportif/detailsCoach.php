@@ -271,8 +271,8 @@ $disponibilites = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             </div>
 
             <form id="reservationForm" class="space-y-4" method="post" action="../../php/Sportif/insererReservation.php">
-              <input type="hidden" value="<?php $id_coach ?>" name="id_coach">
-              <input type="hidden" value="<?php $id_sportif ?>" name="id_sportif">
+              <input type="hidden" value="<?= $id_coach ?>" name="id_coach">
+              <input type="hidden" value="<?= $id_sportif ?>" name="id_sportif">
                 <!-- Sélection discipline -->
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-2">Discipline *</label>

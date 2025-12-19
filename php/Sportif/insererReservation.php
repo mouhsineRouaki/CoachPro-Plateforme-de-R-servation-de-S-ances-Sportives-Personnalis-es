@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         die("Aucun créneau sélectionné.");
     }
     $stmt = $conn->prepare("Select id_sport from sport where nom_sport=?");
-    $stmt->bind_param("i",$nom_sport);
+    $stmt->bind_param("s",$nom_sport);
     $stmt->execute();
     $sport = $stmt->get_result()->fetch_assoc();
     $id_sport = $sport["id_sport"];
@@ -40,6 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $stmt2->execute();
     }
 
-    echo "<h2 style='color:green;text-align:center'>Réservation effectuée avec succès ✔</h2>";
+    header("Location: ../../pages/Sportif/detailsCoach.php?id_coach="."$id_coach");
 }
 ?>

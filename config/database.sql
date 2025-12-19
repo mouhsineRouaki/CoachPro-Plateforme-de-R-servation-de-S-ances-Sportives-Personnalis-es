@@ -85,8 +85,8 @@ CREATE TABLE reservation (
     heure_fin INT,
     status VARCHAR(50),
     date_reservation DATETIME,
-    id_sport INT
+    id_sport INT,
     FOREIGN KEY (id_sportif) REFERENCES sportif(id_sportif),
-    FOREIGN KEY (id_coach) REFERENCES coach(id_coach)
+    FOREIGN KEY (id_coach) REFERENCES coach(id_coach),
     FOREIGN KEY (id_sport) REFERENCES sport(id_sport)
 );
