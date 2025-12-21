@@ -144,7 +144,7 @@ function createCoachCard($coach) {
         <p class="text-purple-600 font-semibold text-sm mb-2">'.$coach['annee_experience'].' ans d\'expérience</p>
         <div class="flex flex-wrap gap-2 mb-4">'.$disciplinesHtml.'</div>
         <button class="w-full py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
-            <a href="../../pages/Sportif/detailsCoach.php?id_coach="'.$coach['id_coach'].'">Voir le profil</a>
+            <a href="../../pages/Sportif/detailsCoach.php?id_coach='.$coach['id_coach'].'">Voir le profil</a>
         </button>
     </div>';
 }
