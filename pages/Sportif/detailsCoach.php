@@ -1,7 +1,7 @@
 <?php
-require "../../php/authentification/checkConnecter.php"; 
 require_once "../../config/connexion.php";
 require_once "../../php/Sportif/functionSportif.php";
+require "../../php/authentification/checkConnecter.php"; 
 $sportif = getSportif();
 $id_sportif = $sportif["id_sportif"];
 

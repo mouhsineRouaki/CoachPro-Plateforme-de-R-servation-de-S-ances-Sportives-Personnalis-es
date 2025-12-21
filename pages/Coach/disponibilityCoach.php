@@ -1,4 +1,5 @@
 <?php
+session_start();
 require "../../php/authentification/checkConnecter.php"; 
 ?>
 <!DOCTYPE html>

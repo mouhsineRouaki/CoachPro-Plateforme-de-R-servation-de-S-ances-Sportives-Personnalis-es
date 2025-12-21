@@ -1,6 +1,6 @@
 <?php 
-require "../../php/authentification/checkConnecter.php"; 
 require "../../php/Sportif/functionSportif.php"; 
+require "../../php/authentification/checkConnecter.php"; 
 $user = getUtilisateur();
 $sportif = getSportif();
 

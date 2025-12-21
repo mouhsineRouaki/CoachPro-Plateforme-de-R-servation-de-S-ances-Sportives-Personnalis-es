@@ -1,6 +1,7 @@
 <?php
-require "../../php/authentification/checkConnecter.php";
 require "../../php/Coach/functionCoach.php";
+require "../../php/authentification/checkConnecter.php";
+
 $coach = getCoach();
 $user = getUtilisateur();
 
