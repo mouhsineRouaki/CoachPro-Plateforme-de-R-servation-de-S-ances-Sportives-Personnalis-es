@@ -21,7 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             session_start();
             $_SESSION["user_id"] = $user["id_utilisateur"];
             $_SESSION["email"] = $user["email"];
-            if($user["role"]=="coach"){
+            $_SESSION["role"] = $user["role"];
+            if($user["role"] ==="coach"){
                 header("Location: ../pages/Coach/dashbordCoach.php");
             }else{
                 header("Location: ../pages/Sportif/dashbordSportif.php");

@@ -1,3 +1,10 @@
+<?php
+require "../../php/Coach/functionCoach.php";
+$user = getUtilisateur();
+$coach = getCoach();
+$sports = getSports();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -81,9 +88,9 @@
             <input type="file" id="imageUpload" accept="image/*" class="hidden">
           </div>
           <div>
-            <h2 class="text-2xl font-bold text-gray-800">Coach Mohamed Benali</h2>
+            <h2 class="text-2xl font-bold text-gray-800"><?= $user["nom"];?> <?= $user["prenom"];?></h2>
             <p class="text-gray-600">Coach Professionnel</p>
-            <p class="text-sm text-gray-500">Membre depuis le 15/01/2023</p>
+            <p class="text-sm text-gray-500">Membre depuis le <?= $user["dateU"];?></p>
           </div>
         </div>
       </div>
@@ -103,9 +110,6 @@
           <button onclick="switchTab('experience')" id="tab-experience" class="px-6 py-3 font-semibold text-gray-600 hover:text-purple-600">
             Expériences
           </button>
-          <button onclick="switchTab('disponibilite')" id="tab-disponibilite" class="px-6 py-3 font-semibold text-gray-600 hover:text-purple-600">
-            Disponibilités
-          </button>
         </div>
       </div>
 
@@ -119,31 +123,32 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Nom</label>
-                <input type="text" id="nom" value="Benali" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                <input type="text" name="nom" id="nom" value="<?= $user["nom"] ?>" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Prénom</label>
-                <input type="text" id="prenom" value="Mohamed" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                <input type="text" id="prenom" name="prenom" value="<?= $user["prenom"] ?>" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
               </div>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                <input type="email" id="email" value="m.benali@coach.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                <input type="email" id="email" name="email" value="<?= $user["email"] ?>" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">Téléphone</label>
-                <input type="tel" id="telephone" value="+212 6 12 34 56 78" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                <input type="tel" name="tel" id="tel" value="<?= $user["telephone"] ?>" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
               </div>
             </div>
 
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Niveau</label>
-              <select id="niveau" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+              <select id="niveau" name="niveau" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                <option value="<?= $coach["niveau"] ?>" selected><?= $coach["niveau"] ?></option>
                 <option value="Débutant">Débutant</option>
                 <option value="Intermédiaire">Intermédiaire</option>
-                <option value="Avancé" selected>Avancé</option>
+                <option value="Avancé" >Avancé</option>
                 <option value="Expert">Expert</option>
               </select>
             </div>
@@ -167,7 +172,7 @@
           <form id="bioForm" class="space-y-4">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Biographie</label>
-              <textarea id="biographie" rows="8" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="Parlez de votre parcours, vos spécialités, votre approche...">Coach professionnel avec plus de 10 ans d'expérience dans le football et la préparation physique. Diplômé d'État, j'ai accompagné de nombreux athlètes vers leurs objectifs. Ma méthode allie rigueur technique et approche personnalisée pour maximiser les performances de chacun.</textarea>
+              <textarea id="biographie" name="biographie" rows="8" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="Parlez de votre parcours, vos spécialités, votre approche..."><?= $coach["biographie"] ?></textarea>
             </div>
             
             <div class="flex justify-end pt-4">
@@ -211,21 +216,6 @@
         </div>
       </div>
 
-      <!-- Onglet Disponibilités -->
-      <div id="content-disponibilite" class="tab-content hidden">
-        <div class="bg-white rounded-lg shadow-md p-6">
-          <div class="flex justify-between items-center mb-6">
-            <h3 class="text-xl font-bold text-gray-800">Gérer vos Disponibilités</h3>
-            <button onclick="openDisponibiliteModal()" class="px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
-              + Ajouter une disponibilité
-            </button>
-          </div>
-          
-          <div id="disponibilitesList" class="space-y-3">
-            <!-- Les disponibilités seront ajoutées ici -->
-          </div>
-        </div>
-      </div>
 
     </main>
 
@@ -275,14 +265,9 @@
         <label class="block text-sm font-medium text-gray-700 mb-2">Sport</label>
         <select id="sportName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
           <option value="">Sélectionner un sport</option>
-          <option value="Football">Football</option>
-          <option value="Basket">Basket</option>
-          <option value="Tennis">Tennis</option>
-          <option value="Natation">Natation</option>
-          <option value="Fitness">Fitness</option>
-          <option value="Yoga">Yoga</option>
-          <option value="Boxe">Boxe</option>
-          <option value="Préparation Physique">Préparation Physique</option>
+          <?php foreach($sports as $sport){?>
+            <option value="<?= $sport['id_sport'] ?>"><?= $sport['nom_sport'] ?></option>
+          <?php }?>
         </select>
       </div>
       <div class="flex justify-end space-x-3 pt-4">
@@ -332,36 +317,6 @@
   </div>
 </div>
 
-<!-- Modal Disponibilité -->
-<div id="disponibiliteModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg p-6 w-full max-w-md">
-    <h3 class="text-xl font-bold text-gray-800 mb-4">Ajouter une disponibilité</h3>
-    <form id="disponibiliteForm" class="space-y-4">
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">Date</label>
-        <input type="date" id="dispDate" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
-      </div>
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Heure début</label>
-          <input type="time" id="dispHeureDebut" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Heure fin</label>
-          <input type="time" id="dispHeureFin" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
-        </div>
-      </div>
-      <div class="flex justify-end space-x-3 pt-4">
-        <button type="button" onclick="closeDisponibiliteModal()" class="px-4 py-2 bg-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-400 transition">
-          Annuler
-        </button>
-        <button type="submit" class="px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
-          Ajouter
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
 
 <!-- Toast notification -->
 <div id="toast" class="hidden fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
@@ -369,44 +324,45 @@
 </div>
 
 <script>
-// Données initiales
-let sports = [
-  { id: 1, name: 'Football' },
-  { id: 2, name: 'Préparation Physique' }
-];
+  let nom = document.getElementById("nom")
+  let prenom = document.getElementById("prenom")
+  let email = document.getElementById("email")
+  let telephone = document.getElementById("tel")
+  let niveau = document.getElementById("niveau")
+  let biographie = document.getElementById("biographie")
+  let sports = []
+  let experiences= []
 
-let experiences = [
-  { id: 1, domaine: 'Coach Football Professionnel', dateDebut: '2018-01-01', dateFin: '2023-12-31', duree: 5 },
-  { id: 2, domaine: 'Préparateur Physique équipe nationale', dateDebut: '2015-01-01', dateFin: '2017-12-31', duree: 3 }
-];
 
-let disponibilites = [
-  { id: 1, date: '2025-01-20', heureDebut: '09:00', heureFin: '12:00', isReserved: false },
-  { id: 2, date: '2025-01-21', heureDebut: '14:00', heureFin: '17:00', isReserved: false },
-  { id: 3, date: '2025-01-22', heureDebut: '10:00', heureFin: '13:00', isReserved: true }
-];
+function apiRequest(data) {
+  return fetch('../../php/Coach/profileCoach.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: new URLSearchParams(data)
+  })
+  .then(res => res.json());
+}
 
-// Gestion des onglets
 function switchTab(tabName) {
-  // Cacher tous les contenus
   document.querySelectorAll('.tab-content').forEach(content => {
     content.classList.add('hidden');
   });
   
-  // Réinitialiser tous les onglets
   document.querySelectorAll('[id^="tab-"]').forEach(tab => {
     tab.classList.remove('text-purple-600', 'border-b-2', 'border-purple-600');
     tab.classList.add('text-gray-600');
   });
   
-  // Activer l'onglet sélectionné
+
   document.getElementById(`content-${tabName}`).classList.remove('hidden');
   const activeTab = document.getElementById(`tab-${tabName}`);
   activeTab.classList.add('text-purple-600', 'border-b-2', 'border-purple-600');
   activeTab.classList.remove('text-gray-600');
 }
 
-// Toast notification
+
 function showToast(message = 'Modifications enregistrées avec succès !') {
   const toast = document.getElementById('toast');
   toast.textContent = message;
@@ -416,19 +372,43 @@ function showToast(message = 'Modifications enregistrées avec succès !') {
   }, 3000);
 }
 
-// Gestion du formulaire d'informations
 document.getElementById('infoForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  showToast('Informations personnelles mises à jour !');
+
+  const data = {
+    action: 'updateInfo',
+    nom: nom.value,
+    prenom: prenom.value,
+    email: email.value,
+    telephone: telephone.value,
+    niveau: niveau.value
+  };
+
+  apiRequest(data).then(result => {
+    if (result.success) {
+      showToast(result.message);
+    } else {
+      alert(result.message);
+    }
+  });
 });
 
-// Gestion du formulaire de biographie
 document.getElementById('bioForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  showToast('Biographie mise à jour !');
+
+  apiRequest({
+    action: 'updateBio',
+    biographie: biographie.value
+  }).then(result => {
+    if (result.success) {
+      showToast(result.message);
+    } else {
+      alert(result.message);
+    }
+  });
 });
 
-// Gestion de l'upload d'image
+
 document.getElementById('imageUpload').addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (file) {
@@ -441,7 +421,6 @@ document.getElementById('imageUpload').addEventListener('change', function(e) {
   }
 });
 
-// Modal Mot de passe
 function showPasswordModal() {
   document.getElementById('passwordModal').classList.remove('hidden');
 }
@@ -465,7 +444,6 @@ document.getElementById('passwordForm').addEventListener('submit', function(e) {
   showToast('Mot de passe modifié avec succès !');
 });
 
-// Gestion des sports
 function renderSports() {
   const list = document.getElementById('sportsList');
   list.innerHTML = sports.map(sport => `
@@ -474,9 +452,9 @@ function renderSports() {
         <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <span class="font-semibold text-gray-800">${sport.name}</span>
+        <span class="font-semibold text-gray-800">${sport.nom_sport}</span>
       </div>
-      <button onclick="deleteSport(${sport.id})" class="text-red-600 hover:text-red-700">
+      <button onclick="deleteSport(${sport.id_sport})" class="text-red-600 hover:text-red-700">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
         </svg>
@@ -495,24 +473,46 @@ function closeSportModal() {
 }
 
 function deleteSport(id) {
-  if (confirm('Êtes-vous sûr de vouloir supprimer ce sport ?')) {
-    sports = sports.filter(s => s.id !== id);
-    renderSports();
-    showToast('Sport supprimé !');
-  }
+  if (!confirm('Êtes-vous sûr de vouloir supprimer ce sport ?')) return;
+
+  apiRequest({
+    action: 'deleteSport',
+    id_sport: id
+  }).then(result => {
+    if (result.success) {
+      loadSports()
+      renderSports();
+      closeSportModal();
+      showToast(result.message);
+    } else {
+      loadSports()
+      renderSports();
+      closeSportModal();
+      showToast(result.message);
+    }
+  });
 }
+
 
 document.getElementById('sportForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  const name = document.getElementById('sportName').value;
-  const newId = sports.length > 0 ? Math.max(...sports.map(s => s.id)) + 1 : 1;
-  sports.push({ id: newId, name });
-  renderSports();
-  closeSportModal();
-  showToast('Sport ajouté !');
+   apiRequest({ action:'addSport', id_sport: document.getElementById("sportName").value})
+   .then(result => {
+    if (result.success) {
+      loadSports()
+      renderSports();
+      closeSportModal();
+      showToast(result.message);
+    } else {
+      loadSports()
+      renderSports();
+      closeSportModal();
+      showToast(result.message);
+    }
+  });
+  
 });
 
-// Gestion des expériences
 function renderExperiences() {
   const list = document.getElementById('experiencesList');
   list.innerHTML = experiences.map(exp => `
@@ -545,12 +545,22 @@ function closeExperienceModal() {
 }
 
 function deleteExperience(id) {
-  if (confirm('Êtes-vous sûr de vouloir supprimer cette expérience ?')) {
-    experiences = experiences.filter(e => e.id !== id);
-    renderExperiences();
-    showToast('Expérience supprimée !');
-  }
+  if (!confirm('Êtes-vous sûr de vouloir supprimer cette expérience ?')) return;
+
+  apiRequest({
+    action: 'deleteExperience',
+    id_experience: id
+  }).then(result => {
+    if (result.success) {
+      experiences = experiences.filter(e => e.id !== id);
+      renderExperiences();
+      showToast(result.message);
+    } else {
+      alert(result.message);
+    }
+  });
 }
+
 
 document.getElementById('experienceForm').addEventListener('submit', function(e) {
   e.preventDefault();
@@ -558,45 +568,27 @@ document.getElementById('experienceForm').addEventListener('submit', function(e)
   const dateDebut = document.getElementById('expDateDebut').value;
   const dateFin = document.getElementById('expDateFin').value;
   const duree = parseInt(document.getElementById('expDuree').value);
-  
-  const newId = experiences.length > 0 ? Math.max(...experiences.map(e => e.id)) + 1 : 1;
-  experiences.push({ id: newId, domaine, dateDebut, dateFin, duree });
-  renderExperiences();
-  closeExperienceModal();
-  showToast('Expérience ajoutée !');
+  apiRequest({ 
+    action: 'addExperience', 
+    date_debut: dateDebut,
+    date_fin:dateFin,
+    duree:duree,
+    domaine:domaine
+  }).then(result => {
+    if (result.success) {
+      loadExperiences()
+      renderExperiences();
+      showToast(result.message);
+    } else {
+      loadExperiences()
+      renderExperiences();
+      showToast(result.message);
+    }
+  });
 });
 
-// Gestion des disponibilités
-function renderDisponibilites() {
-  const list = document.getElementById('disponibilitesList');
-  list.innerHTML = disponibilites.map(disp => `
-    <div class="flex items-center justify-between bg-gray-50 px-4 py-3 rounded-lg border-l-4 ${disp.isReserved ? 'border-red-500' : 'border-green-500'}">
-      <div class="flex-1">
-        <p class="font-semibold text-gray-800">
-          ${new Date(disp.date).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-        </p>
-        <p class="text-gray-600 text-sm">${disp.heureDebut} - ${disp.heureFin}</p>
-        <span class="inline-block mt-2 px-2 py-1 text-xs font-semibold rounded ${disp.isReserved ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}">
-          ${disp.isReserved ? 'Réservé' : 'Disponible'}
-        </span>
-      </div>
-      <button onclick="deleteDisponibilite(${disp.id})" class="text-red-600 hover:text-red-700 ml-4" ${disp.isReserved ? 'disabled title="Ne peut pas supprimer une disponibilité réservée"' : ''}>
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-        </svg>
-      </button>
-    </div>
-  `).join('');
-}
 
-function openDisponibiliteModal() {
-  document.getElementById('disponibiliteModal').classList.remove('hidden');
-}
 
-function closeDisponibiliteModal() {
-  document.getElementById('disponibiliteModal').classList.add('hidden');
-  document.getElementById('disponibiliteForm').reset();
-}
 
 function deleteDisponibilite(id) {
   const disp = disponibilites.find(d => d.id === id);
@@ -611,24 +603,43 @@ function deleteDisponibilite(id) {
     showToast('Disponibilité supprimée !');
   }
 }
+function loadProfile() {
+  apiRequest({ action: 'get' }).then(result => {
+    if (!result.success) return;
 
-document.getElementById('disponibiliteForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  const date = document.getElementById('dispDate').value;
-  const heureDebut = document.getElementById('dispHeureDebut').value;
-  const heureFin = document.getElementById('dispHeureFin').value;
-  
-  const newId = disponibilites.length > 0 ? Math.max(...disponibilites.map(d => d.id)) + 1 : 1;
-  disponibilites.push({ id: newId, date, heureDebut, heureFin, isReserved: false });
-  renderDisponibilites();
-  closeDisponibiliteModal();
-  showToast('Disponibilité ajoutée !');
-});
+    const d = result.data;
 
-// Initialisation
+    nom.value = d.nom;
+    prenom.value = d.prenom;
+    email.value = d.email;
+    telephone.value = d.telephone;
+    niveau.value = d.niveau;
+    biographie.value = d.biographie;
+  });
+}
+function loadSports() {
+  apiRequest({ action: 'getSportsCoach' })
+    .then(result => {
+      if (!result.success) return alert(result.message);
+      sports = result.data;
+      renderSports();
+    });
+}
+function loadExperiences() {
+  apiRequest({ action: 'getExperiences' })
+    .then(result => {
+      if (!result.success) return alert(result.message);
+      experiences = result.data;
+      renderExperiences();
+    });
+}
+loadExperiences()
+loadSports()
+loadProfile();
+
+
 renderSports();
 renderExperiences();
-renderDisponibilites();
 </script>
 
 </body>

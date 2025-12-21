@@ -64,65 +64,6 @@
     </header>
 
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-8">
-      
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow p-6">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-gray-600">Créneaux disponibles</p>
-              <p class="text-2xl font-bold text-purple-600" id="availableCount">0</p>
-            </div>
-            <div class="bg-purple-100 p-3 rounded-full">
-              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow p-6">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-gray-600">Créneaux réservés</p>
-              <p class="text-2xl font-bold text-green-600" id="reservedCount">0</p>
-            </div>
-            <div class="bg-green-100 p-3 rounded-full">
-              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow p-6">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-gray-600">Cette semaine</p>
-              <p class="text-2xl font-bold text-blue-600" id="weekCount">0</p>
-            </div>
-            <div class="bg-blue-100 p-3 rounded-full">
-              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow p-6">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-gray-600">Total créneaux</p>
-              <p class="text-2xl font-bold text-gray-800" id="totalCount">0</p>
-            </div>
-            <div class="bg-gray-100 p-3 rounded-full">
-              <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div class="bg-white rounded-lg shadow p-6 mb-8">
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <div class="flex-1">
@@ -267,246 +208,214 @@
 </style>
 
 <script>
-  // Données des créneaux
-  let availabilitySlots = [
-    { id: 1, date: '2025-01-20', startTime: '09:00', endTime: '10:00', isReserved: false },
-    { id: 2, date: '2025-01-20', startTime: '10:00', endTime: '11:00', isReserved: true },
-    { id: 3, date: '2025-01-20', startTime: '14:00', endTime: '15:00', isReserved: false },
-    { id: 4, date: '2025-01-21', startTime: '09:00', endTime: '10:00', isReserved: false },
-    { id: 5, date: '2025-01-21', startTime: '11:00', endTime: '12:00', isReserved: true },
-    { id: 6, date: '2025-01-22', startTime: '15:00', endTime: '16:00', isReserved: false },
-    { id: 7, date: '2025-01-23', startTime: '10:00', endTime: '11:00', isReserved: false },
-    { id: 8, date: '2025-01-24', startTime: '14:00', endTime: '15:00', isReserved: true }
-  ];
 
-  let currentFilter = 'all';
-  let nextId = 9;
+let newDate = document.getElementById("newDate");
+let newStartTime = document.getElementById("newStartTime");
+let newEndTime = document.getElementById("newEndTime");
 
-  // Fonction pour formater la date
-  function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('fr-FR', options);
-  }
+let editId = document.getElementById("editId");
+let editDate = document.getElementById("editDate");
+let editStartTime = document.getElementById("editStartTime");
+let editEndTime = document.getElementById("editEndTime");
 
-  // Fonction pour créer une carte de créneau
-  function createSlotCard(slot) {
-    const statusColor = slot.isReserved ? 'bg-green-100 text-green-800' : 'bg-purple-100 text-purple-800';
-    const statusText = slot.isReserved ? 'Réservé' : 'Disponible';
-    const statusIcon = slot.isReserved 
-      ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />'
-      : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />';
+let availabilitySlots = [];
+let currentFilter = 'all';
 
-    return `
-      <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6">
-        <div class="flex items-start justify-between mb-4">
-          <div>
-            <p class="text-sm text-gray-500 mb-1">${formatDate(slot.date)}</p>
-            <p class="text-lg font-bold text-gray-800">${slot.startTime} - ${slot.endTime}</p>
-          </div>
-          <span class="${statusColor} px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">${statusIcon}</svg>
-            ${statusText}
-          </span>
-        </div>
-        <div class="flex gap-2">
-          ${!slot.isReserved ? `
-            <button onclick="openEditModal(${slot.id})" class="flex-1 px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition flex items-center justify-center gap-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-              </svg>
-              Modifier
-            </button>
-            <button onclick="deleteSlot(${slot.id})" class="flex-1 px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition flex items-center justify-center gap-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
-              Supprimer
-            </button>
-          ` : `
-            <div class="flex-1 text-center text-sm text-gray-500 py-2">
-              Ce créneau est réservé et ne peut pas être modifié
-            </div>
-          `}
-        </div>
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('fr-FR', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+function createSlotCard(slot) {
+  const statusColor = slot.isReserved == 1
+    ? 'bg-green-100 text-green-800'
+    : 'bg-purple-100 text-purple-800';
+
+  const statusText = slot.isReserved == 1 ? 'Réservé' : 'Disponible';
+
+  const statusIcon = slot.isReserved == 1
+    ? `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />`
+    : `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />`;
+
+  return `
+  <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6">
+    <div class="flex items-start justify-between mb-4">
+      <div>
+        <p class="text-sm text-gray-500 mb-1">${formatDate(slot.date)}</p>
+        <p class="text-lg font-bold text-gray-800">
+          ${slot.startTime} - ${slot.endTime}
+        </p>
       </div>
-    `;
+      <span class="${statusColor} px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          ${statusIcon}
+        </svg>
+        ${statusText}
+      </span>
+    </div>
+
+    <div class="flex gap-2">
+      ${slot.isReserved == 0 ? `
+        <button onclick="openEditModal(${slot.id})"
+          class="flex-1 px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 transition">
+          Modifier
+        </button>
+        <button onclick="deleteSlot(${slot.id})"
+          class="flex-1 px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition">
+          Supprimer
+        </button>
+      ` : `
+        <div class="flex-1 text-center text-sm text-gray-500 py-2">
+          Ce créneau est réservé et ne peut pas être modifié
+        </div>
+      `}
+    </div>
+  </div>`;
+}
+
+function displaySlots() {
+  const grid = document.getElementById('availabilityGrid');
+  const noSlots = document.getElementById('noSlots');
+
+  let filtered = availabilitySlots;
+
+  if (currentFilter === 'available') {
+    filtered = availabilitySlots.filter(s => s.isReserved == 0);
+  } else if (currentFilter === 'reserved') {
+    filtered = availabilitySlots.filter(s => s.isReserved == 1);
   }
 
-  // Fonction pour afficher les créneaux
-  function displaySlots() {
-    const grid = document.getElementById('availabilityGrid');
-    const noSlots = document.getElementById('noSlots');
-    
-    let filtered = availabilitySlots;
-    if (currentFilter === 'available') {
-      filtered = availabilitySlots.filter(s => !s.isReserved);
-    } else if (currentFilter === 'reserved') {
-      filtered = availabilitySlots.filter(s => s.isReserved);
-    }
-
-    if (filtered.length === 0) {
-      grid.classList.add('hidden');
-      noSlots.classList.remove('hidden');
-    } else {
-      grid.classList.remove('hidden');
-      noSlots.classList.add('hidden');
-      grid.innerHTML = filtered.map(slot => createSlotCard(slot)).join('');
-    }
-
-    updateStats();
+  if (filtered.length === 0) {
+    grid.classList.add('hidden');
+    noSlots.classList.remove('hidden');
+  } else {
+    grid.classList.remove('hidden');
+    noSlots.classList.add('hidden');
+    grid.innerHTML = filtered.map(createSlotCard).join('');
   }
+}
 
-  // Fonction pour mettre à jour les statistiques
-  function updateStats() {
-    const available = availabilitySlots.filter(s => !s.isReserved).length;
-    const reserved = availabilitySlots.filter(s => s.isReserved).length;
-    
-    const today = new Date();
-    const weekLater = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-    const thisWeek = availabilitySlots.filter(s => {
-      const slotDate = new Date(s.date);
-      return slotDate >= today && slotDate <= weekLater;
-    }).length;
+function filterSlots(filter) {
+  currentFilter = filter;
 
-    document.getElementById('availableCount').textContent = available;
-    document.getElementById('reservedCount').textContent = reserved;
-    document.getElementById('weekCount').textContent = thisWeek;
-    document.getElementById('totalCount').textContent = availabilitySlots.length;
-  }
+  document.querySelectorAll('.filter-btn').forEach(btn =>
+    btn.classList.remove('active')
+  );
 
-  // Fonction pour filtrer les créneaux
-  function filterSlots(filter) {
-    currentFilter = filter;
-    
-    // Mettre à jour les boutons actifs
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.classList.remove('active');
-    });
-    document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
-    
-    displaySlots();
-  }
-
-  // Fonctions pour les modals
-  function openAddModal() {
-    document.getElementById('addModal').classList.remove('hidden');
-    // Définir la date d'aujourd'hui par défaut
-    const today = new Date().toISOString().split('T')[0];
-    document.getElementById('newDate').value = today;
-  }
-
-  function closeAddModal() {
-    document.getElementById('addModal').classList.add('hidden');
-    document.getElementById('addForm').reset();
-  }
-
-  function openEditModal(id) {
-    const slot = availabilitySlots.find(s => s.id === id);
-    if (slot) {
-      document.getElementById('editId').value = slot.id;
-      document.getElementById('editDate').value = slot.date;
-      document.getElementById('editStartTime').value = slot.startTime;
-      document.getElementById('editEndTime').value = slot.endTime;
-      document.getElementById('editModal').classList.remove('hidden');
-    }
-  }
-
-  function closeEditModal() {
-    document.getElementById('editModal').classList.add('hidden');
-    document.getElementById('editForm').reset();
-  }
-
-  // Fonction pour ajouter un créneau
-  function addSlot(event) {
-    event.preventDefault();
-    
-    const date = document.getElementById('newDate').value;
-    const startTime = document.getElementById('newStartTime').value;
-    const endTime = document.getElementById('newEndTime').value;
-
-    // Validation
-    if (startTime >= endTime) {
-      showToast('L\'heure de fin doit être après l\'heure de début', 'error');
-      return;
-    }
-
-    const newSlot = {
-      id: nextId++,
-      date,
-      startTime,
-      endTime,
-      isReserved: false
-    };
-
-    availabilitySlots.push(newSlot);
-    availabilitySlots.sort((a, b) => {
-      if (a.date !== b.date) return a.date.localeCompare(b.date);
-      return a.startTime.localeCompare(b.startTime);
-    });
-
-    closeAddModal();
-    displaySlots();
-    showToast('Créneau ajouté avec succès', 'success');
-  }
-
-  // Fonction pour modifier un créneau
-  function updateSlot(event) {
-    event.preventDefault();
-    
-    const id = parseInt(document.getElementById('editId').value);
-    const date = document.getElementById('editDate').value;
-    const startTime = document.getElementById('editStartTime').value;
-    const endTime = document.getElementById('editEndTime').value;
-
-    // Validation
-    if (startTime >= endTime) {
-      showToast('L\'heure de fin doit être après l\'heure de début', 'error');
-      return;
-    }
-
-    const slot = availabilitySlots.find(s => s.id === id);
-    if (slot) {
-      slot.date = date;
-      slot.startTime = startTime;
-      slot.endTime = endTime;
-
-      availabilitySlots.sort((a, b) => {
-        if (a.date !== b.date) return a.date.localeCompare(b.date);
-        return a.startTime.localeCompare(b.startTime);
-      });
-
-      closeEditModal();
-      displaySlots();
-      showToast('Créneau modifié avec succès', 'success');
-    }
-  }
-
-  // Fonction pour supprimer un créneau
-  function deleteSlot(id) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce créneau ?')) {
-      availabilitySlots = availabilitySlots.filter(s => s.id !== id);
-      displaySlots();
-      showToast('Créneau supprimé avec succès', 'success');
-    }
-  }
-
-  // Fonction pour afficher un toast
-  function showToast(message, type = 'success') {
-    const toast = document.getElementById('toast');
-    const toastMessage = document.getElementById('toastMessage');
-    
-    toastMessage.textContent = message;
-    toast.classList.remove('hidden');
-    
-    setTimeout(() => {
-      toast.classList.add('hidden');
-    }, 3000);
-  }
-
-  // Initialisation
+  document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
   displaySlots();
+}
+
+function loadSlots() {
+  fetch('../../php/Coach/getDisponibilites.php')
+    .then(res => res.json())
+    .then(data => {
+      availabilitySlots = data;
+      displaySlots();
+    });
+}
+
+function openAddModal() {
+  addModal.classList.remove('hidden');
+  newDate.value = new Date().toISOString().split('T')[0];
+}
+
+function closeAddModal() {
+  addModal.classList.add('hidden');
+  addForm.reset();
+}
+
+function openEditModal(id) {
+  const slot = availabilitySlots.find(s => s.id == id);
+  if (!slot) return;
+
+  editId.value = slot.id;
+  editDate.value = slot.date;
+  editStartTime.value = slot.startTime;
+  editEndTime.value = slot.endTime;
+  editModal.classList.remove('hidden');
+}
+
+function closeEditModal() {
+  editModal.classList.add('hidden');
+  editForm.reset();
+}
+
+function addSlot(e) {
+  e.preventDefault();
+
+  fetch('../../php/Coach/addDisponibilite.php', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: `date=${newDate.value}&startTime=${newStartTime.value}&endTime=${newEndTime.value}`
+  })
+  .then(response=>response.json())
+  .then(data => {
+    if(data.success){
+      closeAddModal();
+    loadSlots();
+    showToast(data.message);
+    }else{
+      showToast(data.message);
+    }
+    
+  });
+}
+
+function updateSlot(e) {
+  e.preventDefault();
+
+  fetch('../../php/Coach/updateDisponibilite.php', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: `id=${editId.value}&date=${editDate.value}&startTime=${editStartTime.value}&endTime=${editEndTime.value}`
+  })
+  .then(response=>response.json())
+  .then(data => {
+    if(data.success){
+      closeAddModal();
+    loadSlots();
+    showToast(data.message);
+    }else{
+      showToast(data.message);
+    }
+    
+  });
+}
+
+
+function deleteSlot(id) {
+  if (!confirm('Supprimer ce créneau ?')) return;
+
+  fetch('../../php/Coach/deleteDisponibilite.php', {
+    method: 'POST',
+    headers: {'Content-Type':'application/x-www-form-urlencoded'},
+    body: `id=${id}`
+  })
+  .then(() => {
+    loadSlots();
+    showToast('Créneau supprimé');
+  });
+}
+
+function showToast(message) {
+  toastMessage.textContent = message;
+  toast.classList.remove('hidden');
+  setTimeout(() => toast.classList.add('hidden'), 3000);
+}
+
+
+loadSlots();
 </script>
+
 
 </body>
 </html>

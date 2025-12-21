@@ -10,7 +10,7 @@ $confirmeProchineSeance = confirmeProchaineSeance();
 
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard Sportif - Plateforme Sportive</title>
+    <title>Dashboard Sportif - Plateforme Sportive<?= $_SESSION["role"] ?></title>
     <link rel='stylesheet'
         href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.8.12/tailwind-experimental.min.css'>
     <style>

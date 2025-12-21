@@ -9,7 +9,6 @@
 <body class="bg-gray-100">
 
 <div class="flex min-h-screen">
-  <!-- Sidebar -->
     <aside class="hidden sm:flex sm:flex-col">
     <a href="#" class="inline-flex items-center justify-center h-20 w-20 bg-purple-600 hover:bg-purple-500 focus:bg-purple-500">
       <svg fill="none" viewBox="0 0 64 64" class="h-12 w-12">
@@ -91,13 +90,13 @@
           <button onclick="filterReservations('all')" class="filter-btn active px-4 py-2 rounded-lg font-semibold transition">
             Toutes
           </button>
-          <button onclick="filterReservations('pending')" class="filter-btn px-4 py-2 rounded-lg font-semibold transition">
+          <button onclick="filterReservations('en_attente')" class="filter-btn px-4 py-2 rounded-lg font-semibold transition">
             En attente
           </button>
-          <button onclick="filterReservations('confirmed')" class="filter-btn px-4 py-2 rounded-lg font-semibold transition">
+          <button onclick="filterReservations('confirmee')" class="filter-btn px-4 py-2 rounded-lg font-semibold transition">
             Confirmées
           </button>
-          <button onclick="filterReservations('rejected')" class="filter-btn px-4 py-2 rounded-lg font-semibold transition">
+          <button onclick="filterReservations('annulee')" class="filter-btn px-4 py-2 rounded-lg font-semibold transition">
             Refusées
           </button>
         </div>
@@ -168,72 +167,28 @@
 </div>
 
 <script>
-  let reservations = [
-    {
-      id: 1,
-      clientName: "Ahmed Ben Ali",
-      clientEmail: "ahmed@email.com",
-      clientPhone: "+216 98 123 456",
-      sport: "Football",
-      date: "2025-01-20",
-      time: "09:00 - 10:00",
-      duration: "60 min",
-      status: "pending",
-      notes: "Je souhaite améliorer ma technique de tir"
-    },
-    {
-      id: 2,
-      clientName: "Fatima Mansour",
-      clientEmail: "fatima@email.com",
-      clientPhone: "+216 98 234 567",
-      sport: "Fitness",
-      date: "2025-01-20",
-      time: "14:00 - 15:00",
-      duration: "60 min",
-      status: "confirmed",
-      notes: "Programme de perte de poids"
-    },
-    {
-      id: 3,
-      clientName: "Karim Slimani",
-      clientEmail: "karim@email.com",
-      clientPhone: "+216 98 345 678",
-      sport: "Tennis",
-      date: "2025-01-21",
-      time: "10:00 - 11:30",
-      duration: "90 min",
-      status: "pending",
-      notes: "Préparation pour un tournoi"
-    },
-    {
-      id: 4,
-      clientName: "Sarah Trabelsi",
-      clientEmail: "sarah@email.com",
-      clientPhone: "+216 98 456 789",
-      sport: "Natation",
-      date: "2025-01-19",
-      time: "16:00 - 17:00",
-      duration: "60 min",
-      status: "confirmed",
-      notes: "Cours de perfectionnement"
-    },
-    {
-      id: 5,
-      clientName: "Mohamed Gharbi",
-      clientEmail: "mohamed@email.com",
-      clientPhone: "+216 98 567 890",
-      sport: "Boxe",
-      date: "2025-01-18",
-      time: "18:00 - 19:00",
-      duration: "60 min",
-      status: "rejected",
-      notes: "Initiation à la boxe anglaise"
-    }
-  ];
+  let reservation=[];
+  fetch("../../php/Coach/getReservationsCoach.php")
+      .then(res => res.json())
+      .then(data => {
+        reservation= data.map(r => ({
+          id_reservation: r.id_reservation,
+          coach_name: r.nom + " " + r.prenom,
+          coach_image: r.coach_img || "https://via.placeholder.com/150",
+          sport: r.nom_sport,
+          date_seance: r.date_seance,
+          heure_debut: r.heure_debut,
+          heure_fin: r.heure_fin,
+          status: r.status,
+          tel: r.telephone
+        }));
+        console.log(reservation)
+        displayReservations();
+      });
 
   let currentFilter = 'all';
 
-  // Fonction pour obtenir le badge de statut
+
   function getStatusBadge(status) {
     const badges = {
       pending: '<span class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">En attente</span>',
@@ -244,60 +199,57 @@
   }
 
   // Fonction pour créer une carte de réservation
-  function createReservationCard(reservation) {
-    const isPending = reservation.status === 'pending';
-    const isConfirmed = reservation.status === 'confirmed';
+  function createReservationCard(reservationO) {
+    const isPending = reservationO.status === 'en_attente';
+    const isConfirmed = reservationO.status === 'confirmee';
     
     return `
       <div class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow p-6">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div class="flex-1">
             <div class="flex items-center gap-3 mb-2">
-              <h3 class="text-lg font-bold text-gray-800">${reservation.clientName}</h3>
-              ${getStatusBadge(reservation.status)}
+              <h3 class="text-lg font-bold text-gray-800">${reservationO.coach_name}</h3>
+              ${getStatusBadge(reservationO.status)}
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600">
               <div class="flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <span>${reservation.date}</span>
+                <span>${reservationO.date_seance}</span>
               </div>
               <div class="flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span>${reservation.time}</span>
+                <span>${reservationO.heure_debut}-${reservationO.heure_debut}</span>
               </div>
               <div class="flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
-                <span>${reservation.sport}</span>
+                <span>${reservationO.sport}</span>
               </div>
               <div class="flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                <span>${reservation.clientPhone}</span>
+                <span>${reservationO.tel}</span>
               </div>
             </div>
           </div>
           
           <div class="flex flex-wrap gap-2">
-            <button onclick="viewDetails(${reservation.id})" class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-semibold text-sm">
-              Détails
-            </button>
             ${isPending ? `
-              <button onclick="confirmReservation(${reservation.id})" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold text-sm">
+              <button onclick="confirmReservation(${reservationO.id_reservation})" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold text-sm">
                 Confirmer
               </button>
-              <button onclick="rejectReservation(${reservation.id})" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold text-sm">
+              <button onclick="cancelReservation(${reservationO.id_reservation})" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold text-sm">
                 Refuser
               </button>
             ` : ''}
             ${isConfirmed ? `
-              <button onclick="cancelReservation(${reservation.id})" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold text-sm">
+              <button onclick="cancelReservation(${reservationO.id_reservation})" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold text-sm">
                 Annuler
               </button>
             ` : ''}
@@ -307,14 +259,13 @@
     `;
   }
 
-  // Fonction pour afficher les réservations
   function displayReservations() {
     const list = document.getElementById('reservationsList');
     const noReservations = document.getElementById('noReservations');
     
-    let filtered = reservations;
+    let filtered = reservation;
     if (currentFilter !== 'all') {
-      filtered = reservations.filter(r => r.status === currentFilter);
+      filtered = reservation.filter(r => r.status === currentFilter);
     }
 
     if (filtered.length === 0) {
@@ -329,18 +280,17 @@
     updateStatistics();
   }
 
-  // Fonction pour mettre à jour les statistiques
   function updateStatistics() {
     const today = new Date().toISOString().split('T')[0];
     
     document.getElementById('pendingCount').textContent = 
-      reservations.filter(r => r.status === 'pending').length;
+      reservation.filter(r => r.status === 'en_attente').length;
     document.getElementById('confirmedCount').textContent = 
-      reservations.filter(r => r.status === 'confirmed').length;
+      reservation.filter(r => r.status === 'confirmee').length;
     document.getElementById('todayCount').textContent = 
-      reservations.filter(r => r.date === today && r.status !== 'rejected').length;
+      reservation.filter(r => r.date === today).length;
     document.getElementById('rejectedCount').textContent = 
-      reservations.filter(r => r.status === 'rejected').length;
+      reservation.filter(r => r.status === 'annulee').length;
   }
 
   // Fonction pour filtrer les réservations
@@ -359,77 +309,53 @@
     displayReservations();
   }
 
-  // Fonction pour voir les détails
-  function viewDetails(id) {
-    const reservation = reservations.find(r => r.id === id);
-    if (!reservation) return;
+ 
 
-    document.getElementById('clientName').textContent = reservation.clientName;
-    document.getElementById('clientEmail').textContent = reservation.clientEmail;
-    document.getElementById('clientPhone').textContent = reservation.clientPhone;
-    document.getElementById('sessionSport').textContent = reservation.sport;
-    document.getElementById('sessionDate').textContent = reservation.date;
-    document.getElementById('sessionTime').textContent = reservation.time;
-    document.getElementById('sessionDuration').textContent = reservation.duration;
-    document.getElementById('clientNotes').textContent = reservation.notes;
 
-    const actionButtons = document.getElementById('actionButtons');
-    if (reservation.status === 'pending') {
-      actionButtons.innerHTML = `
-        <button onclick="confirmReservation(${id}); closeDetailsModal();" class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold">
-          Confirmer
-        </button>
-        <button onclick="rejectReservation(${id}); closeDetailsModal();" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold">
-          Refuser
-        </button>
-      `;
-    } else if (reservation.status === 'confirmed') {
-      actionButtons.innerHTML = `
-        <button onclick="cancelReservation(${id}); closeDetailsModal();" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold">
-          Annuler la réservation
-        </button>
-      `;
-    } else {
-      actionButtons.innerHTML = '';
-    }
 
-    document.getElementById('detailsModal').classList.remove('hidden');
-  }
-
-  // Fonction pour fermer le modal
-  function closeDetailsModal() {
-    document.getElementById('detailsModal').classList.add('hidden');
-  }
-
-  // Fonction pour confirmer une réservation
   function confirmReservation(id) {
-    const reservation = reservations.find(r => r.id === id);
-    if (reservation) {
-      reservation.status = 'confirmed';
+  fetch('../../php/Coach/confirmReservation.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `id_reservation=${id}`
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      // Mettre à jour localement pour affichage immédiat
+      const resObj = reservation.find(r => r.id_reservation === id);
+      if (resObj) resObj.status = 'confirmee';
       displayReservations();
-      showToast('Réservation confirmée avec succès');
+      showToast(data.message);
+    } else {
+      showToast('Erreur : ' + data.message);
     }
-  }
+  })
+  .catch(err => showToast('Erreur : ' + err.message));
+}
 
-  // Fonction pour refuser une réservation
-  function rejectReservation(id) {
-    const reservation = reservations.find(r => r.id === id);
-    if (reservation) {
-      reservation.status = 'rejected';
-      displayReservations();
-      showToast('Réservation refusée');
-    }
-  }
 
-  // Fonction pour annuler une réservation
-  function cancelReservation(id) {
-    const reservation = reservations.find(r => r.id === id);
-    if (reservation) {
-      reservation.status = 'rejected';
+
+ function cancelReservation(id) {
+  fetch('../../php/Coach/annuleeReservation.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `id_reservation=${id}`
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      // Mettre à jour localement pour affichage immédiat
+      const resObj = reservation.find(r => r.id_reservation === id);
+      if (resObj) resObj.status = 'annulee';
       displayReservations();
-      showToast('Réservation annulée');
+      showToast(data.message);
+    } else {
+      showToast('Erreur : ' + data.message);
     }
-  }
+  })
+  .catch(err => showToast('Erreur : ' + err.message));
+}
 
   // Fonction pour afficher un toast
   function showToast(message) {
