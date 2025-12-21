@@ -1,5 +1,7 @@
 <?php
 require "../../php/Coach/functionCoach.php";
+require "../../php/authentification/checkConnecter.php";
+
 $user = getUtilisateur();
 $coach = getCoach();
 $sports = getSports();

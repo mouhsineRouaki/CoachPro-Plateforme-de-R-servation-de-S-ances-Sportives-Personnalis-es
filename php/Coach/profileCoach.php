@@ -49,7 +49,7 @@ switch ($action) {
         break;
 
     case 'getExperiences':
-        echo json_encode(getCoachExperiences($id_coach));
+        echo json_encode(getCoachExperiences());
         break;
 
     default:

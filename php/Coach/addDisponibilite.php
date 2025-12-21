@@ -1,6 +1,7 @@
 <?php
 require_once "../../config/connexion.php";
 require_once "./functionCoach.php";
+session_start();
 $coach = getCoach();
 $id_coach = $coach["id_coach"];
 

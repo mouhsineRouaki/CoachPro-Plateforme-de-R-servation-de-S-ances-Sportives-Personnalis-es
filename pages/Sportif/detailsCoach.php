@@ -1,4 +1,5 @@
 <?php
+require "../../php/authentification/checkConnecter.php"; 
 require_once "../../config/connexion.php";
 require_once "../../php/Sportif/functionSportif.php";
 $sportif = getSportif();

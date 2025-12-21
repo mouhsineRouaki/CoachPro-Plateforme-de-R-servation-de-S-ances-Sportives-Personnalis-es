@@ -1,3 +1,6 @@
+<?php
+require "../../php/authentification/checkConnecter.php"; 
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
