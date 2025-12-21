@@ -300,5 +300,89 @@ function addExperience($data)
 
 
 
+function getEnAttenteReservations( $id_coach) {
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT COUNT(*) total
+        FROM reservation
+        WHERE id_coach=? AND status='en_attente'
+    ");
+    $stmt->bind_param("i", $id_coach);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc()['total'];
+}
 
-?>
+function getTodaySessions( $id_coach) {
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT COUNT(*) total
+        FROM reservation
+        WHERE id_coach=? AND date_seance = CURDATE()
+    ");
+    $stmt->bind_param("i", $id_coach);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc()['total'];
+}
+
+function getTomorrowSessions( $id_coach) {
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT COUNT(*) total
+        FROM reservation
+        WHERE id_coach=? AND date_seance = CURDATE() + INTERVAL 1 DAY
+    ");
+    $stmt->bind_param("i", $id_coach);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc()['total'];
+}
+
+function getTotalSportifs( $id_coach) {
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT COUNT(DISTINCT id_sportif) total
+        FROM reservation
+        WHERE id_coach=?
+    ");
+    $stmt->bind_param("i", $id_coach);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc()['total'];
+}
+
+
+
+function getNextSession($id_coach) {
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT r.*, u.nom, u.prenom, s.nom_sport,r.date_seance ,r.heure_debut ,r.heure_fin , sp.sportif_img
+        FROM reservation r
+        JOIN sportif sp ON sp.id_sportif = r.id_sportif
+        JOIN utilisateur u ON u.id_utilisateur = sp.id_utilisateur
+        JOIN sport s ON s.id_sport = r.id_sport
+        WHERE r.id_coach=? AND r.status='confirmee'
+        AND r.date_seance >= CURDATE()
+        ORDER BY r.date_seance, r.heure_debut
+        LIMIT 1
+    ");
+    $stmt->bind_param("i", $id_coach);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+
+
+function getSessionHistory($id_coach, $limit = 5) {
+    global $conn;
+    $stmt = $conn->prepare("
+        SELECT r.*, u.nom, u.prenom, s.nom_sport
+        FROM reservation r
+        JOIN sportif sp ON sp.id_sportif = r.id_sportif
+        JOIN utilisateur u ON u.id_utilisateur = sp.id_utilisateur
+        JOIN sport s ON s.id_sport = r.id_sport
+        WHERE r.id_coach=?
+        ORDER BY r.date_seance DESC
+        LIMIT ?
+    ");
+    $stmt->bind_param("ii", $id_coach, $limit);
+    $stmt->execute();
+    return $stmt->get_result();
+}

@@ -1,3 +1,21 @@
+<?php 
+require "../../php/Coach/functionCoach.php";
+$coach = getCoach();
+$user = getUtilisateur();
+
+
+$id_coach = $coach["id_coach"];
+
+$pending        = getEnAttenteReservations($id_coach);
+$today          = getTodaySessions($id_coach);
+$tomorrow       = getTomorrowSessions($id_coach);
+$totalSportifs  = getTotalSportifs($id_coach);
+
+$nextSession    = getNextSession($id_coach);
+$history        = getSessionHistory($id_coach);
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -61,21 +79,16 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
         </svg>
       </button>
-      <div class="relative w-full max-w-md sm:-ml-2">
-        <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" class="absolute h-6 w-6 mt-2.5 ml-2 text-gray-400">
-          <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-        </svg>
-        <input type="text" role="search" placeholder="Rechercher un sportif..." class="py-2 pl-10 pr-4 w-full border-4 border-transparent placeholder-gray-400 focus:bg-gray-50 rounded-lg" />
-      </div>
+
       <div class="flex flex-shrink-0 items-center ml-auto">
         <button class="inline-flex items-center p-2 hover:bg-gray-100 focus:bg-gray-100 rounded-lg">
           <span class="sr-only">Menu Utilisateur</span>
           <div class="hidden md:flex md:flex-col md:items-end md:leading-tight">
-            <span class="font-semibold">Mohamed Coach</span>
+            <span class="font-semibold"><?= $user["nom"] ?>  <?= $user["prenom"] ?></span>
             <span class="text-sm text-gray-600">Coach Professionnel</span>
           </div>
           <span class="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
-            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="photo de profil" class="h-full w-full object-cover">
+            <img src="<?= $coach["coach_img"] ?>" alt="photo de profil" class="h-full w-full object-cover">
           </span>
           <svg aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" class="hidden sm:block h-6 w-6 text-gray-300">
             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -106,20 +119,7 @@
           <h1 class="text-4xl font-semibold mb-2">Tableau de Bord Coach</h1>
           <h2 class="text-gray-600 ml-0.5">Gérez vos séances, disponibilités et profil professionnel</h2>
         </div>
-        <div class="flex flex-wrap items-start justify-end -mb-3">
-          <button id="btnModifierProfil" class="inline-flex px-5 py-3 text-purple-600 hover:text-purple-700 focus:text-purple-700 hover:bg-purple-100 focus:bg-purple-100 border border-purple-600 rounded-md mb-3">
-            <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="flex-shrink-0 h-5 w-5 -ml-1 mt-0.5 mr-2">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-            </svg>
-            Modifier mon profil
-          </button>
-          <button class="inline-flex px-5 py-3 text-white bg-purple-600 hover:bg-purple-700 focus:bg-purple-700 rounded-md ml-6 mb-3">
-            <svg aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="flex-shrink-0 h-6 w-6 text-white -ml-1 mr-2">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-            Ajouter disponibilité
-          </button>
-        </div>
+
       </div>
       
       <!-- Statistiques Principales -->
@@ -131,7 +131,7 @@
             </svg>
           </div>
           <div>
-            <span class="block text-2xl font-bold">5</span>
+            <span class="block text-2xl font-bold"><?= $pending ?></span>
             <span class="block text-gray-500">Demandes en attente</span>
           </div>
         </div>
@@ -143,7 +143,7 @@
             </svg>
           </div>
           <div>
-            <span class="block text-2xl font-bold">3</span>
+            <span class="block text-2xl font-bold"><?= $today ?></span>
             <span class="block text-gray-500">Séances aujourd'hui</span>
           </div>
         </div>
@@ -155,7 +155,7 @@
             </svg>
           </div>
           <div>
-            <span class="block text-2xl font-bold">7</span>
+            <span class="block text-2xl font-bold"><?= $tomorrow ?></span>
             <span class="block text-gray-500">Séances demain</span>
           </div>
         </div>
@@ -167,7 +167,7 @@
             </svg>
           </div>
           <div>
-            <span class="block text-2xl font-bold">142</span>
+            <span class="block text-2xl font-bold"><?= $totalSportifs ?></span>
             <span class="block text-gray-500">Total sportifs coachés</span>
           </div>
         </div>
@@ -178,13 +178,14 @@
         <div class="flex flex-col md:col-span-2 md:row-span-2 bg-white shadow rounded-lg">
           <div class="px-6 py-5 font-semibold border-b border-gray-100">Prochaine Séance</div>
           <div class="p-6 flex-grow">
+            <?php if ($nextSession): ?>
             <div class="flex items-center mb-4">
               <div class="h-16 w-16 mr-4 bg-gray-100 rounded-full overflow-hidden">
-                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="Sportif">
+                <img src="<?= $nextSession['sportif_img'] ?>" alt="Sportif">
               </div>
               <div class="flex-grow">
-                <h3 class="text-lg font-semibold">Karim Benali</h3>
-                <p class="text-gray-600">Préparation Physique</p>
+                <h3><?= $nextSession['prenom'].' '.$nextSession['nom'] ?></h3>
+                <p><?= $nextSession['nom_sport'] ?></p>
               </div>
             </div>
             <div class="space-y-3">
@@ -192,30 +193,27 @@
                 <svg class="h-5 w-5 mr-3 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <span>Aujourd'hui, 16 Décembre 2024</span>
+                <span><?= $nextSession['date_seance'] ?></span>
               </div>
               <div class="flex items-center text-gray-700">
                 <svg class="h-5 w-5 mr-3 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span>14:00 - 15:30</span>
-              </div>
-              <div class="flex items-center text-gray-700">
-                <svg class="h-5 w-5 mr-3 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-                <span>Salle de sport - Centre ville</span>
+                <span><?= $nextSession['heure_debut'] ?> - <?= $nextSession['heure_fin'] ?></span>
               </div>
               <div class="mt-4 p-3 bg-gray-50 rounded-lg">
-                <p class="text-sm text-gray-600"><strong>Note:</strong> Premier cours avec ce sportif. Évaluation physique initiale prévue.</p>
+                <p class="m-auto text-sm text-gray-600"><strong>Note:</strong> Premier cours avec ce sportif. Évaluation physique initiale prévue.</p>
               </div>
             </div>
+            <?php else: ?>
+            <p class="m-auto">Aucune séance programmée</p>
+          <?php endif; ?>
+
           </div>
         </div>
+      </section>
 
       
-      <!-- Historique des Séances -->
       <section class="bg-white shadow rounded-lg p-6">
         <h3 class="text-xl font-semibold mb-4">Historique des Séances Récentes</h3>
         <div class="overflow-x-auto">
@@ -230,66 +228,16 @@
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div class="h-10 w-10 flex-shrink-0">
-                      <img class="h-10 w-10 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="">
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">Omar Khalil</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded-full">Football</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15 Déc 2024</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10:00 - 11:30</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded-full">Terminée</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div class="h-10 w-10 flex-shrink-0">
-                      <img class="h-10 w-10 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="">
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">Fatima Zahra</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">Tennis</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">14 Déc 2024</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">16:00 - 17:00</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded-full">Terminée</span>
-                </td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div class="h-10 w-10 flex-shrink-0">
-                      <img class="h-10 w-10 rounded-full" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png" alt="">
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">Amine Rachidi</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded-full">Natation</span>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">13 Déc 2024</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">08:00 - 09:00</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="px-2 py-1 text-xs bg-red-100 text-red-700 rounded-full">Annulée</span>
-                </td>
-              </tr>
+              <?php while($row = $history->fetch_assoc()): ?>
+                <tr>
+                  <td><?= $row['prenom'].' '.$row['nom'] ?></td>
+                  <td><?= $row['nom_sport'] ?></td>
+                  <td><?= $row['date_seance'] ?></td>
+                  <td><?= $row['heure_debut'].' - '.$row['heure_fin'] ?></td>
+                  <td><?= ucfirst($row['status']) ?></td>
+                </tr>
+                <?php endwhile; ?>
+
             </tbody>
           </table>
         </div>
